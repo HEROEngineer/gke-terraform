@@ -2,6 +2,9 @@
 *.tfstate
 *.tfstate.*.backup
 *.tfstate.backup
-
+# plan files
+*.plan
 # Module directory
 .terraform/
+# Credentials directory
+credentials/
