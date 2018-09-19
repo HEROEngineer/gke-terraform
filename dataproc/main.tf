@@ -1,6 +1,7 @@
 resource "google_storage_bucket" "pocstagingbuck" {
-  name     = "dataproc-poc-staging-bucket"
-  location = "US"
+  name          = "dataproc-poc-staging-bucket"
+  location      = "US"
+  force_destroy = "true"
 }
 
 resource "google_dataproc_cluster" "poccluster" {
@@ -40,7 +41,7 @@ resource "google_dataproc_cluster" "poccluster" {
 
     # Override or set some custom properties
     software_config {
-      image_version = "1.3.7-deb9"
+      image_version = "1.3.8-deb9"
 
       override_properties = {
         "dataproc:dataproc.allow.zero.workers" = "true"
