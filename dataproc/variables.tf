@@ -15,3 +15,13 @@ variable "worker_num_instances" {
   description = "Specifies the number of worker nodes to create"
   default     = 2
 }
+
+variable "master_machine_type" {
+  description = "Specifies the machine type of master nodes to create"
+  default     = "n1-standard-2"
+}
+
+variable "worker_machine_type" {
+  description = "Specifies the machine type of worker nodes to create"
+  default     = "n1-standard-2"
+}
