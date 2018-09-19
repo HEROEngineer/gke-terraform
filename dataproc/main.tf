@@ -65,12 +65,12 @@ resource "google_dataproc_cluster" "poccluster" {
     }
 
     initialization_action {
-      script      = "gs://dataproc-initialization-actions/jupyter2/jupyter2.sh"
+      script      = "gs://dataproc-initialization-actions/ganglia/ganglia.sh"
       timeout_sec = 500
     }
 
     initialization_action {
-      script      = "gs://dataproc-initialization-actions/ganglia/ganglia.sh"
+      script      = "gs://dataproc-initialization-actions/tez/tez.sh"
       timeout_sec = 500
     }
   }
@@ -120,6 +120,33 @@ resource "google_dataproc_job" "pyspark" {
       "spark.logConf" = "true"
     }
   }
+}
+
+resource "google_bigquery_dataset" "default" {
+  dataset_id                  = "s"
+  friendly_name               = "test"
+  description                 = "This is a test description"
+  location                    = "EU"
+  default_table_expiration_ms = 3600000
+
+  labels {
+    env = "default"
+  }
+}
+
+resource "google_bigquery_table" "default" {
+  dataset_id = "${google_bigquery_dataset.default.dataset_id}"
+  table_id   = "bar"
+
+  time_partitioning {
+    type = "DAY"
+  }
+
+  labels {
+    env = "default"
+  }
+
+  schema = "${file("schema.json")}"
 }
 
 # Check out current state of the jobs

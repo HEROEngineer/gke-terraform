@@ -48,8 +48,6 @@ Version | Includes | Base OS | Released On | Last Updated (sub-minor version) | 
 
 * Node Managers: `http://<<Individual_Node_External_IP>>:8042`
 
-* Ganglia: `http://<<Master_External_IP>>:80/jobhistory`
+* Ganglia: `http://<<Master_External_IP>>:80/ganglia`
 
-* Jupyter: `http://<<Master_External_IP>>:8123`
-
-* Livy: `http://<<Master_External_IP>>:8998`
+* Tez UI: `http://<<Master_External_IP>>:8188/tez-ui`
