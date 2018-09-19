@@ -60,11 +60,6 @@ resource "google_dataproc_cluster" "poccluster" {
     }
 
     initialization_action {
-      script      = "gs://dataproc-initialization-actions/zookeeper/zookeeper.sh"
-      timeout_sec = 500
-    }
-
-    initialization_action {
       script      = "gs://dataproc-initialization-actions/drill/drill.sh"
       timeout_sec = 500
     }
@@ -74,10 +69,17 @@ resource "google_dataproc_cluster" "poccluster" {
       timeout_sec = 500
     }
 
+    /**
+    initialization_action {
+      script      = "gs://dataproc-initialization-actions/zookeeper/zookeeper.sh"
+      timeout_sec = 500
+    }
+
     initialization_action {
       script      = "gs://dataproc-initialization-actions/kafka/kafka.sh"
       timeout_sec = 500
     }
+    **/
   }
 
   depends_on = ["google_storage_bucket.pocstagingbuck"]

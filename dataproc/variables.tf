@@ -8,10 +8,10 @@ variable "project" {
 
 variable "master_num_instances" {
   description = "Specifies the number of master nodes to create"
-  default     = 3
+  default     = 1
 }
 
 variable "worker_num_instances" {
   description = "Specifies the number of worker nodes to create"
-  default     = 3
+  default     = 2
 }
