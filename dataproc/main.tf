@@ -17,7 +17,7 @@ resource "google_dataproc_cluster" "poccluster" {
 
     master_config {
       num_instances = 1
-      machine_type  = "n1-standard-2"
+      machine_type  = "n1-standard-4"
 
       disk_config {
         boot_disk_type    = "pd-ssd"
@@ -27,7 +27,7 @@ resource "google_dataproc_cluster" "poccluster" {
 
     worker_config {
       num_instances = 2
-      machine_type  = "n1-standard-2"
+      machine_type  = "n1-standard-4"
 
       disk_config {
         boot_disk_size_gb = 30
@@ -61,8 +61,4 @@ resource "google_dataproc_cluster" "poccluster" {
   }
 
   depends_on = ["google_storage_bucket.pocstagingbuck"]
-}
-
-output "public_ip" {
-  value = "${google_dataproc_cluster.poccluster.cluster_config.0.gce_cluster_config.0.internal_ip_only}"
 }
