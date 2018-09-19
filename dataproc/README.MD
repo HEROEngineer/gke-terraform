@@ -1,6 +1,8 @@
 ### Creation
 `terraform init`
+
 `terraform plan -out "run.plan`
+
 `terraform apply "run.plan"`
 
 ### Destroying
