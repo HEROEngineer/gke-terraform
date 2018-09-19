@@ -1,6 +1,6 @@
 resource "google_compute_firewall" "dataprocopen" {
   name    = "${var.project}-dataprocopen"
-  network = "${google_compute_network.dataproc.name}"
+  network = "${google_compute_network.dataproc_network.name}"
 
   // Allow ping
   allow {

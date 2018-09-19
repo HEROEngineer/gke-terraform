@@ -48,17 +48,9 @@ resource "google_dataproc_cluster" "poccluster" {
       }
     }
 
-    network_config {
-      network = "${google_compute_network.dataproc.name}"
-
-      access_config {
-        // Ephemeral IP
-      }
-    }
-
     gce_cluster_config {
-      #network = "${google_compute_network.dataproc_network.name}"
-      tags = ["foo", "bar"]
+      network = "${google_compute_network.dataproc_network.name}"
+      tags    = ["foo", "bar"]
     }
 
     # You can define multiple initialization_action blocks
