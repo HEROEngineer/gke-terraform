@@ -28,7 +28,6 @@ variable "cluster_tag" {
 
 variable "project" {
   description = "The Project name"
-  default     = "maximal-furnace-202714"
 }
 
 variable "gcp_machine_type" {
