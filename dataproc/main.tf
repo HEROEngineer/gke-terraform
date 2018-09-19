@@ -16,7 +16,7 @@ resource "google_dataproc_cluster" "poccluster" {
     staging_bucket = "${google_storage_bucket.pocstagingbuck.name}"
 
     master_config {
-      num_instances = 1
+      num_instances = "${var.master_num_instances}"
       machine_type  = "n1-standard-4"
 
       disk_config {
@@ -26,7 +26,7 @@ resource "google_dataproc_cluster" "poccluster" {
     }
 
     worker_config {
-      num_instances = 2
+      num_instances = "${var.worker_num_instances}"
       machine_type  = "n1-standard-4"
 
       disk_config {
@@ -60,6 +60,11 @@ resource "google_dataproc_cluster" "poccluster" {
     }
 
     initialization_action {
+      script      = "gs://dataproc-initialization-actions/zookeeper/zookeeper.sh"
+      timeout_sec = 500
+    }
+
+    initialization_action {
       script      = "gs://dataproc-initialization-actions/drill/drill.sh"
       timeout_sec = 500
     }
@@ -70,7 +75,7 @@ resource "google_dataproc_cluster" "poccluster" {
     }
 
     initialization_action {
-      script      = "gs://dataproc-initialization-actions/tez/tez.sh"
+      script      = "gs://dataproc-initialization-actions/kafka/kafka.sh"
       timeout_sec = 500
     }
   }
