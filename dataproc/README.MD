@@ -47,3 +47,9 @@ Version | Includes | Base OS | Released On | Last Updated (sub-minor version) | 
 * Hadoop Job History Server: `http://<<Master_External_IP>>:19888/jobhistory`
 
 * Node Managers: `http://<<Individual_Node_External_IP>>:8042`
+
+* Ganglia: `http://<<Master_External_IP>>:80/jobhistory`
+
+* Jupyter: `http://<<Master_External_IP>>:8123`
+
+* Livy: `http://<<Master_External_IP>>:8998`
