@@ -62,3 +62,7 @@ resource "google_dataproc_cluster" "poccluster" {
 
   depends_on = ["google_storage_bucket.pocstagingbuck"]
 }
+
+output "public_ip" {
+  value = "${google_dataproc_cluster.poccluster.cluster_config.0.gce_cluster_config.0.internal_ip_only}"
+}
