@@ -32,7 +32,7 @@
 
 Name | Role | Staging Bucket
 --- | --- | ---
-poccluster-m*<br />poccluster-w-*| Default 3 Masters <br />Default 3 Workers| dataproc-poc-staging-bucket
+poccluster-m<br />poccluster-w-*| Default 1 Master <br />Default 2 Workers| dataproc-poc-staging-bucket
 
 ### Cloud Dataproc version
 Version | Includes | Base OS | Released On | Last Updated (sub-minor version) | Notes
@@ -49,7 +49,3 @@ Version | Includes | Base OS | Released On | Last Updated (sub-minor version) | 
 * Node Managers: `http://<<Individual_Node_External_IP>>:8042`
 
 * Ganglia: `http://<<Master_External_IP>>:80/ganglia`
-
-* Tez UI: `http://<<Master_External_IP>>:8188/tez-ui`
-
-* Zookeeper Port: `2181`
