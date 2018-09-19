@@ -1,7 +1,8 @@
-resource "google_storage_bucket" "staging-bucket" {
+resource "google_storage_bucket" "poc-staging-bucket" {
   name     = "dataproc-staging-bucket"
   location = "US"
 }
+
 resource "google_dataproc_cluster" "poccluster" {
   name   = "poccluster"
   region = "${var.cluster_location}"
@@ -11,7 +12,7 @@ resource "google_dataproc_cluster" "poccluster" {
   }
 
   cluster_config {
-    staging_bucket = "${google_storage_bucket.staging-bucket.name}"
+    staging_bucket = "${google_storage_bucket.poc-staging-bucket.name}"
 
     master_config {
       num_instances = 1
@@ -58,5 +59,5 @@ resource "google_dataproc_cluster" "poccluster" {
     }
   }
 
-  depends_on = ["google_storage_bucket.staging-bucket"]
+  depends_on = ["google_storage_bucket.poc-staging-bucket"]
 }
