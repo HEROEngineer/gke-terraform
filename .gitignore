@@ -8,11 +8,12 @@
 .terraform/
 # Credentials directory
 credentials/
+prometheus-operator/
+gethelm.sh
 #All Compiled files in dataproc
 # Compiled files
 dataproc/*.tfstate
 dataproc/*.tfstate.*.backup
-dataproc/*.tfstate.backup
 # dataproc plan files
 dataproc/*.plan
 # dataproc terraform
