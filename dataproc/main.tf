@@ -6,8 +6,13 @@ resource "google_dataproc_cluster" "poccluster" {
     foo = "bar"
   }
 
+  resource "google_storage_bucket" "staging-bucket" {
+    name     = "dataproc-staging-bucket"
+    location = "US"
+  }
+
   cluster_config {
-    staging_bucket = "dataproc-staging-bucket"
+    staging_bucket = "${google_storage_bucket.staging-bucket.name}"
 
     master_config {
       num_instances = 1
@@ -53,4 +58,6 @@ resource "google_dataproc_cluster" "poccluster" {
       timeout_sec = 500
     }
   }
+
+  depends_on = ["google_storage_bucket.staging-bucket"]
 }
