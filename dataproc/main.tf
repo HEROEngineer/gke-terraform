@@ -64,17 +64,15 @@ resource "google_dataproc_cluster" "poccluster" {
       timeout_sec = 500
     }
 
-    /**
     initialization_action {
       script      = "gs://dataproc-initialization-actions/zookeeper/zookeeper.sh"
-      timeout_sec = 50000
+      timeout_sec = 5000
     }
 
     initialization_action {
       script      = "gs://dataproc-initialization-actions/kafka/kafka.sh"
       timeout_sec = 500
     }
-    **/
   }
 
   depends_on = ["google_storage_bucket.pocstagingbuck"]
