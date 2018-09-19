@@ -1,14 +1,13 @@
+resource "google_storage_bucket" "staging-bucket" {
+  name     = "dataproc-staging-bucket"
+  location = "US"
+}
 resource "google_dataproc_cluster" "poccluster" {
   name   = "poccluster"
   region = "${var.cluster_location}"
 
   labels {
     foo = "bar"
-  }
-
-  resource "google_storage_bucket" "staging-bucket" {
-    name     = "dataproc-staging-bucket"
-    location = "US"
   }
 
   cluster_config {
