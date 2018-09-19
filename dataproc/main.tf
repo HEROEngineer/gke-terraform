@@ -1,6 +1,6 @@
 resource "google_storage_bucket" "pocstagingbuck" {
   name          = "dataproc-poc-staging-bucket"
-  location      = "US"
+  location      = "EU"
   force_destroy = "true"
 }
 

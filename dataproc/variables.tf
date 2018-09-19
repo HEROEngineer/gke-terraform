@@ -1,5 +1,5 @@
 variable "cluster_location" {
-  description = "Please input the cluster location like us-central1 "
+  description = "Please input the cluster location like europe-west2 "
 }
 
 variable "project" {
