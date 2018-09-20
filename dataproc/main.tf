@@ -73,6 +73,11 @@ resource "google_dataproc_cluster" "poccluster" {
       script      = "gs://dataproc-initialization-actions/kafka/kafka.sh"
       timeout_sec = 500
     }
+
+    initialization_action {
+      script      = "gs://dataproc-initialization-actions/zeppelin/zeppelin.sh"
+      timeout_sec = 500
+    }
   }
 
   depends_on = ["google_storage_bucket.pocstagingbuck"]
