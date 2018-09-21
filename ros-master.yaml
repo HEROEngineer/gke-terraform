@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ros-kinetic-master-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ros-master
+    spec:
+      nodeSelector:
+        dedicated: master
+      containers:
+      - name: ros-kinetic
+        image: ros:kinetic-perception-xenial
+        args: ["roscore"]
+        ports:
+        - containerPort: 11311
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: master-service
+spec:
+  clusterIP: None
+  ports:
+  - port: 11311
+    targetPort: 11311
+    protocol: TCP
+  selector:
+    app: ros-master
+  type: LoadBalancer

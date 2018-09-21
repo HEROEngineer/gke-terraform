@@ -54,3 +54,7 @@ variable "install_ibm_mq" {
 variable "patch_ibm_mq_lbr_external" {
   description = "Please input whether to expose IBM MQ 9.1 Web console and MQ Default listener to External loadbalancer - true or false"
 }
+
+variable "install_ros_kinetic" {
+  description = "Install ros-kinetic master, listener and talker services - true or false"
+}

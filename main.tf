@@ -139,6 +139,16 @@ resource "null_resource" "provision" {
 
   provisioner "local-exec" {
     command = <<EOF
+              if [ "${var.install_ros_kinetic}" = "true" ]; then
+                  kubectl create namespace ros-kinetic && kubectl create -f ros-master.yaml--namespace ros-kinetic && kubectl create -f ros-headless-listener.yaml --namespace ros-kinetic && kubectl create -f ros-talker-service.yaml --namespace ros-kinetic 
+              else
+                  echo ${var.install_ros_kinetic}
+              fi
+        EOF
+  }
+
+  provisioner "local-exec" {
+    command = <<EOF
                 if [ "${var.install_ibm_mq}" = "true" ]; then
                     kubectl create namespace ibm && helm install --name mqserver ibm-charts/ibm-mqadvanced-server-dev --set license=accept --namespace ibm
                 else

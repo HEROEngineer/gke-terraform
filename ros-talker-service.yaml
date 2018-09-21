@@ -1,0 +1,41 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: talker
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: talker
+    spec:
+      containers:
+      -  name: talker
+         image: ros:kinetic-perception-xenial
+         env:
+          - name: ROS_HOSTNAME
+            value: talker
+          - name: ROS_MASTER_URI
+            value: http://master-service.default.svc.cluster.local:11311
+         args:
+            - rostopic
+            - pub
+            - "-r"
+            - "1"
+            - such_topic
+            - std_msgs/String
+            - "Kubernetes is the best"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: talker
+spec:
+  clusterIP: None
+  ports:
+  - port: 11311
+    targetPort: 11311
+    protocol: TCP
+  selector:
+    app: talker
+  type: LoadBalancer
