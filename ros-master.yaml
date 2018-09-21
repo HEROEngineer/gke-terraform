@@ -10,7 +10,7 @@ spec:
         app: ros-master
     spec:
       nodeSelector:
-        dedicated: master
+        dedicated: ros-kinetic
       containers:
       - name: ros-kinetic
         image: ros:kinetic-perception-xenial
