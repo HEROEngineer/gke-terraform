@@ -38,4 +38,4 @@ spec:
     protocol: TCP
   selector:
     app: talker
-  type: LoadBalancer
+  type: ClusterIP

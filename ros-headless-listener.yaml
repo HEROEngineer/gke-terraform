@@ -31,4 +31,4 @@ spec:
     protocol: TCP
   selector:
     app: listener
-  type: LoadBalancer
+  type: ClusterIP
