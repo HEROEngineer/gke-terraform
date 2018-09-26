@@ -49,3 +49,15 @@ Version | Includes | Base OS | Released On | Last Updated (sub-minor version) | 
 * Node Managers: `http://<<Individual_Node_External_IP>>:8042`
 
 * Ganglia: `http://<<Master_External_IP>>:80/ganglia`
+
+ ### Terraform Graph
+ Please generate dot format (Graphviz) terraform configuration graphs for visual representation of the repo.
+
+ `terraform graph | dot -Tsvg > graph.svg`
+ 
+ Also, one can use [Blast Radius](https://github.com/28mm/blast-radius) on live initialized terraform project to view graph.
+ Please shoot in dockerized format:
+
+ `docker ps -a|grep blast-radius|awk '{print $1}'|xargs docker kill && rm -rf gke-terraform && git clone https://github.com/cloudgear-io/gke-terraform && cd gke-terraform/dataproc/ && terraform init && docker run --cap-add=SYS_ADMIN -dit --rm -p 5004:5000 -v $(pwd):/workdir:ro 28mm/blast-radius && cd ../../`
+
+  A live example is [here](http://buildservers.westeurope.cloudapp.azure.com:5004/) for this project.

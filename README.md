@@ -35,3 +35,15 @@
 |   install_ibm_mq	|Install IBM MQ v9 OR Not with PV  	|
 |   patch_prom_graf_lbr_external	|true or false   	|
 |   patch_ibm_mq_lbr_external	|true or false   	|
+
+### Terraform Graph
+Please generate dot format (Graphviz) terraform configuration graphs for visual representation of the repo.
+
+`terraform graph | dot -Tsvg > graph.svg`
+
+Also, one can use [Blast Radius](https://github.com/28mm/blast-radius) on live initialized terraform project to view graph.
+Please shoot in dockerized format:
+
+`docker ps -a|grep blast-radius|awk '{print $1}'|xargs docker kill && rm -rf gke-terraform && git clone https://github.com/cloudgear-io/gke-terraform && cd gke-terraform && terraform init && docker run --cap-add=SYS_ADMIN -dit --rm -p 5003:5000 -v $(pwd):/workdir:ro 28mm/blast-radius`
+
+ A live example is [here](http://buildservers.westeurope.cloudapp.azure.com:5003/) for this project. 
