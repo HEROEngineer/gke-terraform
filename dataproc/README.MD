@@ -65,7 +65,7 @@ Version | Includes | Base OS | Released On | Last Updated (sub-minor version) | 
  ### Testing Kafka
   Once the cluster has been created Kafka should be running on all worker nodes in the cluster, and Kafka libraries should be installed on the master node(s). You can test your Kafka setup by creating a simple topic and publishing to it with Kafka's command-line tools, after SSH'ing into one of your master nodes:
 
-    ```bash
+    ```
     gcloud compute ssh gcloud compute ssh poccluster-m --zone europe-west2-b
 
     # Create a test topic, just talking to the local master's zookeeper server.
