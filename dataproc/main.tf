@@ -162,7 +162,3 @@ output "spark_status" {
 output "pyspark_status" {
   value = "${google_dataproc_job.pyspark.status.0.state}"
 }
-
-output "master_name" {
-  value = "${cluster_config.master_config.instance_names}"
-}
