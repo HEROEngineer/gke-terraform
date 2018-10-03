@@ -128,7 +128,7 @@ resource "google_dataproc_job" "pyspark" {
 }
 
 resource "google_bigquery_dataset" "default" {
-  dataset_id                  = "s"
+  dataset_id                  = "testdataset"
   friendly_name               = "test"
   description                 = "This is a test description"
   location                    = "EU"
@@ -161,4 +161,8 @@ output "spark_status" {
 
 output "pyspark_status" {
   value = "${google_dataproc_job.pyspark.status.0.state}"
+}
+
+output "master_name" {
+  value = "${cluster_config.master_config.instance_names}"
 }
