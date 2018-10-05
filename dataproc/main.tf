@@ -75,7 +75,7 @@ resource "google_dataproc_cluster" "poccluster" {
     }
 
     initialization_action {
-      script      = "gs://dataproc-initialization-actions/zeppelin/zeppelin.sh"
+      script      = "gs://dataproc-initialization-actions/docker/docker.sh"
       timeout_sec = 500
     }
   }
@@ -109,6 +109,42 @@ resource "google_dataproc_job" "spark" {
   }
 }
 
+# Submit a hadoop job to the cluster
+resource "google_dataproc_job" "hadoop" {
+  hadoop_config {
+    main_jar_file_uri = "file:///usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar"
+
+    args = [
+      "wordcount",
+      "file:///usr/lib/spark/NOTICE",
+      "gs://${google_dataproc_cluster.basic.cluster_config.0.bucket}/hadoopjob_output",
+    ]
+  }
+}
+
+resource "google_dataproc_job" "sparksql" {
+  sparksql_config {
+    query_list = [
+      "DROP TABLE IF EXISTS dprocjob_test",
+      "CREATE TABLE dprocjob_test(bar int)",
+      "SELECT * FROM dprocjob_test WHERE bar > 2",
+    ]
+  }
+}
+
+# Submit a pig job to the cluster
+resource "google_dataproc_job" "pig" {
+  pig_config {
+    query_list = [
+      "LNS = LOAD 'file:///usr/lib/pig/LICENSE.txt ' AS (line)",
+      "WORDS = FOREACH LNS GENERATE FLATTEN(TOKENIZE(line)) AS word",
+      "GROUPS = GROUP WORDS BY word",
+      "WORD_COUNTS = FOREACH GROUPS GENERATE group, COUNT(WORDS)",
+      "DUMP WORD_COUNTS",
+    ]
+  }
+}
+
 # Submit an example pyspark job to a dataproc cluster
 resource "google_dataproc_job" "pyspark" {
   region       = "${google_dataproc_cluster.poccluster.region}"
@@ -116,6 +152,17 @@ resource "google_dataproc_job" "pyspark" {
 
   placement {
     cluster_name = "${google_dataproc_cluster.poccluster.name}"
+  }
+
+  # Submit a hive job to the cluster
+  resource "google_dataproc_job" "hive" {
+    hive_config {
+      query_list = [
+        "DROP TABLE IF EXISTS dprocjob_test",
+        "CREATE EXTERNAL TABLE dprocjob_test(bar int) LOCATION 'gs://${google_dataproc_cluster.basic.cluster_config.0.bucket}/hive_dprocjob_test/'",
+        "SELECT * FROM dprocjob_test WHERE bar > 2",
+      ]
+    }
   }
 
   pyspark_config {
@@ -161,4 +208,20 @@ output "spark_status" {
 
 output "pyspark_status" {
   value = "${google_dataproc_job.pyspark.status.0.state}"
+}
+
+output "hive_status" {
+  value = "${google_dataproc_job.hive.status.0.state}"
+}
+
+output "pig_status" {
+  value = "${google_dataproc_job.pig.status.0.state}"
+}
+
+output "hadoopjob_status" {
+  value = "${google_dataproc_job.hadoop.status.0.state}"
+}
+
+output "sparksql_status" {
+  value = "${google_dataproc_job.sparksql.status.0.state}"
 }
