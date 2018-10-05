@@ -231,3 +231,7 @@ output "hadoopjob_status" {
 output "sparksql_status" {
   value = "${google_dataproc_job.sparksql.status.0.state}"
 }
+
+output "master_connect" {
+  value = "gcloud compute ssh ${cluster_config.0.master_config.0.instance_names.0}"
+}
