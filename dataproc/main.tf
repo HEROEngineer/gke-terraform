@@ -78,6 +78,11 @@ resource "google_dataproc_cluster" "poccluster" {
       script      = "gs://dataproc-initialization-actions/docker/docker.sh"
       timeout_sec = 500
     }
+
+    initialization_action {
+      script      = "gs://dataproc-initialization-actions/livy/livy.sh"
+      timeout_sec = 500
+    }
   }
 
   depends_on = ["google_storage_bucket.pocstagingbuck"]
