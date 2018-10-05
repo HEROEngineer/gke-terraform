@@ -111,6 +111,13 @@ resource "google_dataproc_job" "spark" {
 
 # Submit a hadoop job to the cluster
 resource "google_dataproc_job" "hadoop" {
+  region       = "${google_dataproc_cluster.poccluster.region}"
+  force_delete = true
+
+  placement {
+    cluster_name = "${google_dataproc_cluster.poccluster.name}"
+  }
+
   hadoop_config {
     main_jar_file_uri = "file:///usr/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar"
 
@@ -120,13 +127,16 @@ resource "google_dataproc_job" "hadoop" {
       "gs://${google_dataproc_cluster.poccluster.cluster_config.0.bucket}/hadoopjob_output",
     ]
   }
+}
+
+resource "google_dataproc_job" "sparksql" {
+  region       = "${google_dataproc_cluster.poccluster.region}"
+  force_delete = true
 
   placement {
     cluster_name = "${google_dataproc_cluster.poccluster.name}"
   }
-}
 
-resource "google_dataproc_job" "sparksql" {
   sparksql_config {
     query_list = [
       "DROP TABLE IF EXISTS dprocjob_test",
@@ -134,14 +144,17 @@ resource "google_dataproc_job" "sparksql" {
       "SELECT * FROM dprocjob_test WHERE bar > 2",
     ]
   }
-
-  placement {
-    cluster_name = "${google_dataproc_cluster.poccluster.name}"
-  }
 }
 
 # Submit a pig job to the cluster
 resource "google_dataproc_job" "pig" {
+  region       = "${google_dataproc_cluster.poccluster.region}"
+  force_delete = true
+
+  placement {
+    cluster_name = "${google_dataproc_cluster.poccluster.name}"
+  }
+
   pig_config {
     query_list = [
       "LNS = LOAD 'file:///usr/lib/pig/LICENSE.txt ' AS (line)",
@@ -150,10 +163,6 @@ resource "google_dataproc_job" "pig" {
       "WORD_COUNTS = FOREACH GROUPS GENERATE group, COUNT(WORDS)",
       "DUMP WORD_COUNTS",
     ]
-  }
-
-  placement {
-    cluster_name = "${google_dataproc_cluster.poccluster.name}"
   }
 }
 
