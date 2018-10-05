@@ -154,17 +154,6 @@ resource "google_dataproc_job" "pyspark" {
     cluster_name = "${google_dataproc_cluster.poccluster.name}"
   }
 
-  # Submit a hive job to the cluster
-  resource "google_dataproc_job" "hive" {
-    hive_config {
-      query_list = [
-        "DROP TABLE IF EXISTS dprocjob_test",
-        "CREATE EXTERNAL TABLE dprocjob_test(bar int) LOCATION 'gs://${google_dataproc_cluster.poccluster.cluster_config.0.bucket}/hive_dprocjob_test/'",
-        "SELECT * FROM dprocjob_test WHERE bar > 2",
-      ]
-    }
-  }
-
   pyspark_config {
     main_python_file_uri = "gs://dataproc-examples-2f10d78d114f6aaec76462e3c310f31f/src/pyspark/hello-world/hello-world.py"
 
@@ -208,10 +197,6 @@ output "spark_status" {
 
 output "pyspark_status" {
   value = "${google_dataproc_job.pyspark.status.0.state}"
-}
-
-output "hive_status" {
-  value = "${google_dataproc_job.hive.status.0.state}"
 }
 
 output "pig_status" {
