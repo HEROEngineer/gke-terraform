@@ -117,7 +117,7 @@ resource "google_dataproc_job" "hadoop" {
     args = [
       "wordcount",
       "file:///usr/lib/spark/NOTICE",
-      "gs://${google_dataproc_cluster.basic.cluster_config.0.bucket}/hadoopjob_output",
+      "gs://${google_dataproc_cluster.poccluster.cluster_config.0.bucket}/hadoopjob_output",
     ]
   }
 }
@@ -159,7 +159,7 @@ resource "google_dataproc_job" "pyspark" {
     hive_config {
       query_list = [
         "DROP TABLE IF EXISTS dprocjob_test",
-        "CREATE EXTERNAL TABLE dprocjob_test(bar int) LOCATION 'gs://${google_dataproc_cluster.basic.cluster_config.0.bucket}/hive_dprocjob_test/'",
+        "CREATE EXTERNAL TABLE dprocjob_test(bar int) LOCATION 'gs://${google_dataproc_cluster.poccluster.cluster_config.0.bucket}/hive_dprocjob_test/'",
         "SELECT * FROM dprocjob_test WHERE bar > 2",
       ]
     }
