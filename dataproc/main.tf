@@ -120,6 +120,10 @@ resource "google_dataproc_job" "hadoop" {
       "gs://${google_dataproc_cluster.poccluster.cluster_config.0.bucket}/hadoopjob_output",
     ]
   }
+
+  placement {
+    cluster_name = "${google_dataproc_cluster.poccluster.name}"
+  }
 }
 
 resource "google_dataproc_job" "sparksql" {
@@ -129,6 +133,10 @@ resource "google_dataproc_job" "sparksql" {
       "CREATE TABLE dprocjob_test(bar int)",
       "SELECT * FROM dprocjob_test WHERE bar > 2",
     ]
+  }
+
+  placement {
+    cluster_name = "${google_dataproc_cluster.poccluster.name}"
   }
 }
 
@@ -142,6 +150,10 @@ resource "google_dataproc_job" "pig" {
       "WORD_COUNTS = FOREACH GROUPS GENERATE group, COUNT(WORDS)",
       "DUMP WORD_COUNTS",
     ]
+  }
+
+  placement {
+    cluster_name = "${google_dataproc_cluster.poccluster.name}"
   }
 }
 
