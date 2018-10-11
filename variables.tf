@@ -59,3 +59,7 @@ variable "install_ros_kinetic" {
   description = "Install ros-kinetic master, listener and talker services - true or false"
   default     = "false"
 }
+
+variable "install_suitecrm" {
+  description = "Install SuiteCRM with MariaDB - true or false"
+}
