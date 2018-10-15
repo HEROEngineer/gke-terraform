@@ -30,7 +30,7 @@
 |   cluster_tag	|gke_devor gke_tst or gke_uat or gke_prod	|
 |   project	|The GCP project name	|
 |   gcp_machine_type	|https://cloud.google.com/compute/docs/machine-types   	|
-|   helm_install_jenkins	|Install Jenkins OR Not [with auto PV as per values in yaml   	|
+|   helm_install_jenkins	|Install Jenkins OR Not [with auto PV] as per values in yaml   	|
 |   install_prometheus_grafana	|Install prometheus and Grafana for cluster as helm package   	|
 |   install_ibm_mq	|Install IBM MQ v9 OR Not with PV  	|
 |   patch_prom_graf_lbr_external	|true or false   	|
