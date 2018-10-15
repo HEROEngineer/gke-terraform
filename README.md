@@ -22,12 +22,12 @@
 |   Prompted variables	| Expected value  	|
 |---	|---	|
 |   cluster_name	|Name of the GKE Cluster  	|
-|   cluster_location	|us-central1 or eu-westeurope2   	|
-|   node_count	| master count - 1 master is to three minimum workers   	|
+|   cluster_location	|us-central1 or eu-westeurope2 (UK)  or  eu-westeurope4 (NL) any other region  	|
+|   node_count	| master count - 1 master is to three minimum workers e.g: 1  	|
 |   master_auth_username	|admin 	|
-|   master_auth_password	|16 letters and strong 	|
-|   cluster_label	|dev/tst/uat/prod	|
-|   cluster_tag	|gke_dev/tst/uat/prod	|
+|   master_auth_password	|16 letters and strong like e.g: !@#olie!@#olie!@#23D# 	|
+|   cluster_label	|dev or tst or uat/prod	|
+|   cluster_tag	|gke_devor gke_tst or gke_uat or gke_prod	|
 |   project	|The GCP project name	|
 |   gcp_machine_type	|https://cloud.google.com/compute/docs/machine-types   	|
 |   helm_install_jenkins	|Install Jenkins OR Not [with auto PV as per values in yaml   	|
@@ -35,7 +35,23 @@
 |   install_ibm_mq	|Install IBM MQ v9 OR Not with PV  	|
 |   patch_prom_graf_lbr_external	|true or false   	|
 |   patch_ibm_mq_lbr_external	|true or false   	|
+|   install_suitecrm	|true or false   	|
 
+### All Services
+
+`kubectl get svc --all-namespaces`
+
+if prometheus/grafana or MQ patch to load balancer is `yes`, then External IP would be available and accessible for prometheus and MQ.
+
+> Jenkins and SuiteCRM are defaulted to Load balancer and hence always have external IP
+
+---
+**NOTE**
+
+For 1 master gke, it is preferable besides prometheus/grafana to install only MQ or SuiteCRM.
+One can also `helm install` any other apps.
+
+---
 ### user/passes
 1. MQ Web console
 user is `admin`
@@ -57,9 +73,9 @@ user is `admin`
 
 User/Password for grafana (generally `admin/admin`)
 
-`kubectl get secret --namespace monitoring kube-prometheus-grafana -o jsonpath="{.data.password}" | base64 --d ; echo`
+`kubectl get secret --namespace monitoring kube-prometheus-grafana -o jsonpath="{.data.password}" | base64 --decode ; echo`
 
-`kubectl get secret --namespace monitoring kube-prometheus-grafana -o jsonpath="{.data.user}" | base64 --d ; echo`
+`kubectl get secret --namespace monitoring kube-prometheus-grafana -o jsonpath="{.data.user}" | base64 --decode ; echo`
 
 
 ### Terraform Graph

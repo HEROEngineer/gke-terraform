@@ -7,7 +7,7 @@ variable "cluster_location" {
 }
 
 variable "node_count" {
-  description = "Please enter the node count "
+  description = "Please enter the master node count - if this is 1, then there would be three nodes "
 }
 
 variable "master_auth_username" {

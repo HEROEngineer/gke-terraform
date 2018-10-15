@@ -53,6 +53,8 @@ Version | Includes | Base OS | Released On | Last Updated (sub-minor version) | 
 
 * Livy: `http://<<Master_External_IP>>:8998`
 
+* docker latest is installed on all nodes.
+
  ### Terraform Graph
  Please generate dot format (Graphviz) terraform configuration graphs for visual representation of the repo.
 
