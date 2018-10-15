@@ -36,6 +36,32 @@
 |   patch_prom_graf_lbr_external	|true or false   	|
 |   patch_ibm_mq_lbr_external	|true or false   	|
 
+### user/passes
+1. MQ Web console
+user is `admin`
+
+`MQ_ADMIN_PASSWORD=$(kubectl get secret --namespace ibm mqserver-ibm-mq -o jsonpath="{.data.adminPassword}" | base64 --decode; echo)`
+
+`MQ_APP_PASSWORD=$(kubectl get secret --namespace ibm mqserver-ibm-mq -o jsonpath="{.data.appPassword}" | base64 --decode; echo)`
+
+2. Suite CRM
+user is `user`
+`kubectl get secret --namespace sugarcrm sugarcrm-dev-suitecrm -o jsonpath="{.data.suitecrm-password}" | base64 --decode`
+
+3. Jenkins Master
+user is `admin`
+
+`printf $(kubectl get secret --namespace default hclaks-jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode);echo`
+
+4. Grafana (with kube-prom)
+
+User/Password for grafana (generally `admin/admin`)
+
+`kubectl get secret --namespace monitoring kube-prometheus-grafana -o jsonpath="{.data.password}" | base64 --d ; echo`
+
+`kubectl get secret --namespace monitoring kube-prometheus-grafana -o jsonpath="{.data.user}" | base64 --d ; echo`
+
+
 ### Terraform Graph
 Please generate dot format (Graphviz) terraform configuration graphs for visual representation of the repo.
 
