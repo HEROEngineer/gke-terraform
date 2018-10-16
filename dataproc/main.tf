@@ -41,7 +41,7 @@ resource "google_dataproc_cluster" "poccluster" {
 
     # Override or set some custom properties
     software_config {
-      image_version = "1.3.8-deb9"
+      image_version = "1.3.12-deb9"
 
       override_properties = {
         "dataproc:dataproc.allow.zero.workers" = "true"
