@@ -1,3 +1,14 @@
+Table of Contents (Google Cloud with Terraform with disks)
+=================
+
+1. [Google Kubernetes Engine with Terraform ](#google-cloud-with-terraform)
+2. [All Services](#all-services)
+3. [Obtaining users and passes](#obtaining-users-and-passes)
+4. [Terraform graph](#terraform-graph)
+5. [Automatic provisioning](#automatic-provisioning)
+6. [Reporting bugs](#reporting-bugs)
+7. [Patches and pull requests](#patches-and-pull-requests
+
 # Google Kubernetes Engine with Terraform
 
 1. [Download and Install Terraform](https://www.terraform.io/downloads.html)
@@ -52,7 +63,7 @@ For 1 master gke, it is preferable besides prometheus/grafana to install only MQ
 One can also `helm install` any other apps.
 
 ---
-### user/passes
+### Obtaining users and passes
 1. MQ Web console
 user is `admin`
 
@@ -89,3 +100,35 @@ Please shoot in dockerized format:
 `docker ps -a|grep blast-radius|awk '{print $1}'|xargs docker kill && rm -rf gke-terraform && git clone https://github.com/cloudgear-io/gke-terraform && cd gke-terraform && terraform init && docker run --cap-add=SYS_ADMIN -dit --rm -p 5003:5000 -v $(pwd):/workdir:ro 28mm/blast-radius`
 
  A live example is [here](http://buildservers.westeurope.cloudapp.azure.com:5003/) for this project. 
+
+  ### Automatic Provisioning
+
+https://github.com/cloudgear-io/gke-terraform
+
+Pre-req: 
+1. gcloud should be installed. Silent install is - 
+`export $USERNAME="<<you_user_name>>" && export SHARE_DATA=/data && su -c "export SHARE_DATA=/data && export CLOUDSDK_INSTALL_DIR=$SHARE_DATA export CLOUDSDK_CORE_DISABLE_PROMPTS=1 && curl https://sdk.cloud.google.com | bash" $USER_NAME && echo "source $SHARE_DATA/google-cloud-sdk/path.bash.inc" >> /etc/profile.d/gcloud.sh && echo "source $SHARE_DATA/google-cloud-sdk/completion.bash.inc" >> /etc/profile.d/gcloud.sh &&`
+
+2. Please create Service Credential of type JSON via https://console.cloud.google.com/apis/credentials, download and save as google.json in credentials folder of the gke-terraform
+3. **Default user name is the local username**
+
+Plan:
+
+`terraform init && terraform plan -var cluster_label=devgke -var cluster_location=europe-west4 -var cluster_name=devgkeclus -var cluster_tag=devgkeeuwest4 -var helm_install_jenkins=false -var install_ibm_mq=true -var install_prometheus_grafana=true -var install_suitecrm=false -var master_auth_password=\!@#olie\!@#olie\!@#23D# -var master_auth_username=admin -var node_count=1 -var patch_ibm_mq_lbr_external=true -var patch_prom_graf_lbr_external=true -var project=<<your-google-cloud-project-name>> "run.plan"`
+
+Apply:
+
+`terraform apply "run.plan"`
+
+Destroy:
+
+`terraform destroy -var cluster_label=devgke -var cluster_location=europe-west4 -var cluster_name=devgkeclus -var cluster_tag=devgkeeuwest4 -var helm_install_jenkins=false -var install_ibm_mq=true -var install_prometheus_grafana=true -var install_suitecrm=false -var master_auth_password=\!@#olie\!@#olie\!@#23D# -var master_auth_username=admin -var node_count=1 -var patch_ibm_mq_lbr_external=true -var patch_prom_graf_lbr_external=true -var project=<<your-google-cloud-project-name>>`
+
+### Reporting bugs
+
+Please report bugs  by opening an issue in the [GitHub Issue Tracker](https://github.com/dwaiba/gke-terraform/issues).
+Bugs have auto template defined. Please view it [here](https://github.com/dwaiba/gke-terraform/blob/master/.github/ISSUE_TEMPLATE/bug_report.md)
+
+### Patches and pull requests
+
+Patches can be submitted as GitHub pull requests. If using GitHub please make sure your branch applies to the current master as a 'fast forward' merge (i.e. without creating a merge commit). Use the `git rebase` command to update your branch to the current master if necessary.
