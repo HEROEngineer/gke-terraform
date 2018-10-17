@@ -1,4 +1,4 @@
-Table of Contents (Google Cloud with Terraform with disks)
+Table of Contents (GKE and tools with Terraform)
 =================
 
 1. [Google Kubernetes Engine with Terraform ](#google-cloud-with-terraform)
