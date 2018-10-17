@@ -7,7 +7,7 @@ Table of Contents (GKE and tools with Terraform)
 4. [Terraform graph](#terraform-graph)
 5. [Automatic provisioning](#automatic-provisioning)
 6. [Reporting bugs](#reporting-bugs)
-7. [Patches and pull requests](#patches-and-pull-requests
+7. [Patches and pull requests](#patches-and-pull-requests)
 
 # Google Kubernetes Engine with Terraform
 
