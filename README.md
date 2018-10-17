@@ -126,8 +126,8 @@ Destroy:
 
 ### Reporting bugs
 
-Please report bugs  by opening an issue in the [GitHub Issue Tracker](https://github.com/dwaiba/gke-terraform/issues).
-Bugs have auto template defined. Please view it [here](https://github.com/dwaiba/gke-terraform/blob/master/.github/ISSUE_TEMPLATE/bug_report.md)
+Please report bugs  by opening an issue in the [GitHub Issue Tracker](https://github.com/cloudgear-io/gke-terraform/issues).
+Bugs have auto template defined. Please view it [here](https://github.com/cloudgear-io/gke-terraform/blob/master/.github/ISSUE_TEMPLATE/bug_report.md)
 
 ### Patches and pull requests
 
