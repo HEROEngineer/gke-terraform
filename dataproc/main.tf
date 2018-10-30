@@ -87,8 +87,8 @@ resource "google_dataproc_cluster" "poccluster" {
   depends_on = ["google_storage_bucket.pocstagingbuck"]
 
   timeouts {
-    create = "20m"
-    delete = "20m"
+    create = "30m"
+    delete = "30m"
   }
 }
 
