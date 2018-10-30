@@ -63,17 +63,12 @@ resource "google_dataproc_cluster" "poccluster" {
       script      = "gs://dataproc-initialization-actions/ganglia/ganglia.sh"
       timeout_sec = 500
     }
-
+/**
     initialization_action {
       script      = "gs://dataproc-initialization-actions/zookeeper/zookeeper.sh"
       timeout_sec = 5000
     }
-
-    initialization_action {
-      script      = "gs://dataproc-initialization-actions/kafka/kafka.sh"
-      timeout_sec = 500
-    }
-
+**/
     initialization_action {
       script      = "gs://dataproc-initialization-actions/docker/docker.sh"
       timeout_sec = 500
@@ -83,9 +78,18 @@ resource "google_dataproc_cluster" "poccluster" {
       script      = "gs://dataproc-initialization-actions/livy/livy.sh"
       timeout_sec = 500
     }
+        initialization_action {
+      script      = "gs://dataproc-initialization-actions/kafka/kafka.sh"
+      timeout_sec = 500
+    }
   }
 
   depends_on = ["google_storage_bucket.pocstagingbuck"]
+
+  timeouts {
+    create = "20m"
+    delete = "20m"
+  }
 }
 
 # Submit an example spark job to a dataproc cluster

@@ -45,7 +45,7 @@ Table of Contents (dataproc cluster debian-9 with zookeeper, kafka ,BigQuery and
 
 Name | Role | Staging Bucket
 --- | --- | ---
-poccluster-m<br />poccluster-w-*| Default 1 Master <br />Default 2 Workers| dataproc-poc-staging-bucket
+poccluster-m<br />poccluster-w-*| **Default 3 Masters and Auto HA with Zookepeer** <br />Number of workers are prompted | dataproc-poc-staging-bucket
 
 ### Cloud Dataproc version
 Version | Includes | Base OS | Released On | Last Updated (sub-minor version) | Notes
@@ -94,7 +94,7 @@ Pre-req:
 
 Plan:
 
-`terraform init && terraform plan -var cluster_location=europe-west2 -var project=r<<your-google-cloud-project-name>> -out "run.plan"`
+`terraform init && terraform plan -var cluster_location=europe-west2 -var project=<<your-google-cloud-project-name>> -var.worker_num_instances=<<number of workers for the default auto ha with zookeper 3 masters>> -out "run.plan"`
 
 Apply:
 
@@ -102,7 +102,7 @@ Apply:
 
 Destroy:
 
-`terraform destroy -var cluster_location=europe-west2 -var project=<<your-google-cloud-project-name>>`
+`terraform destroy -var cluster_location=europe-west2 -var project=<<your-google-cloud-project-name>> -var.worker_num_instances=<<number of workers for the default auto ha with zookeper 3 masters>>`
 
 
  ### Testing Kafka

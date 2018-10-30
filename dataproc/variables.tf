@@ -7,13 +7,15 @@ variable "project" {
 }
 
 variable "master_num_instances" {
-  description = "Specifies the number of master nodes to create"
-  default     = 1
+  description = "Specifies the number of master nodes to create - Defaulted to HA"
+  default     = 3
 }
 
 variable "worker_num_instances" {
   description = "Specifies the number of worker nodes to create"
+  /**
   default     = 2
+  **/
 }
 
 variable "master_machine_type" {
