@@ -50,7 +50,7 @@ poccluster-m<br />poccluster-w-*| **Default 3 Masters and Auto HA with Zookepeer
 ### Cloud Dataproc version
 Version | Includes | Base OS | Released On | Last Updated (sub-minor version) | Notes
 --- | --- | --- | --- |--- |---
-1.3-deb9 | [Apache Spark 2.3.1](https://spark.apache.org/docs/2.3.1/)<br />[Apache Hadoop 2.9.0](https://hadoop.apache.org/docs/r2.9.0/index.html)<br />[Apache Pig 0.17.0](https://pig.apache.org/docs/r0.17.0/)<br />Apache Hive 2.3.2<br />[Apache Tez 0.9.0*](https://tez.apache.org/releases/apache-tez-0-9-0.html)<br />[Cloud Storage connector 1.9.8-hadoop2](https://github.com/GoogleCloudPlatform/bigdata-interop/releases/tag/v1.9.8) | Debian 9 | 2018/08/16 | 2018/10/12<br />([1.3.12-deb9](https://cloud.google.com/dataproc/docs/release-notes#october_12_2018)) | All releases on and after November 2, 2018 will be based on Debian 9.
+1.3-deb9 | [Apache Spark 2.3.1](https://spark.apache.org/docs/2.3.1/)<br />[Apache Hadoop 2.9.0](https://hadoop.apache.org/docs/r2.9.0/index.html)<br />[Apache Pig 0.17.0](https://pig.apache.org/docs/r0.17.0/)<br />Apache Hive 2.3.2<br />[Apache Tez 0.9.0*](https://tez.apache.org/releases/apache-tez-0-9-0.html)<br />[Cloud Storage connector 1.9.8-hadoop2](https://github.com/GoogleCloudPlatform/bigdata-interop/releases/tag/v1.9.8) | Debian 9 | 2018/08/16 | 2018/10/26<br />([1.3.14-deb9](https://cloud.google.com/dataproc/docs/release-notes#october_26_2018)) | All releases on and after November 2, 2018 will be based on Debian 9.
 
 ### URLs and extra components via dataproc-initialization-actions
 
@@ -90,7 +90,6 @@ Pre-req:
 
 2. Please create Service Credential of type JSON via https://console.cloud.google.com/apis/credentials, download and save as google.json in credentials folder of the gke-terraform
 
-3. **Default user name is the local username**
 
 Plan:
 
@@ -104,25 +103,29 @@ Destroy:
 
 `terraform destroy -var cluster_location=europe-west2 -var project=<<your-google-cloud-project-name>> -var worker_num_instances=<<number of workers for the default auto ha with zookeper 3 masters>>`
 
-
  ### Testing Kafka
 
   Once the cluster has been created Kafka should be running on all worker nodes in the cluster, and Kafka libraries should be installed on the master node(s). You can test your Kafka setup by creating a simple topic and publishing to it with Kafka's command-line tools, after SSHing into one of your master nodes:
 
   `gcloud compute ssh gcloud compute ssh poccluster-m --zone europe-west2-b`
 
-    Create a test topic, just talking to the local master's zookeeper server.
-    ```
-    ` /usr/lib/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --create  --replication-factor 1 --partitions 1 --topic test /usr/lib/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --list `    
-    
-    Use worker 0 as broker to publish 10 messages over 10 seconds asynchronously.
+   Create a test topic, just talking to the local master's zookeeper server.
 
-    `export CLUSTER_NAME=$(/usr/share/google/get_metadata_value attributes/dataproc-cluster-name)for i in {0..10}; do echo "message${i}"; sleep 1; done |/usr/lib/kafka/bin/kafka-console-producer.sh --broker-list ${CLUSTER_NAME}-w-0:9092 --topic test &`
+  `/usr/lib/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --create  --replication-factor 1 --partitions 1 --topic test`
 
-    User worker 1 as broker to consume those 100 messages as they come.This can also be run in any other master or worker node of the cluster.
-    
-    `/usr/lib/kafka/bin/kafka-console-consumer.sh --bootstrap-server ${CLUSTER_NAME}-w-1:9092 --topic test --from-beginning`
-    ```
+  `/usr/lib/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --list `
+
+  Use worker 0 as broker to publish 10 messages over 10 seconds asynchronously.
+
+  `export CLUSTER_NAME=$(/usr/share/google/get_metadata_value attributes/dataproc-cluster-name)`
+  
+  `for i in {0..10}; do echo "message${i}"; sleep 1; done `
+  
+  `/usr/lib/kafka/bin/kafka-console-producer.sh --broker-list ${CLUSTER_NAME}-w-0:9092 --topic test &`
+  
+  User worker 1 as broker to consume those 10 messages as they come.This can also be run in any other master or worker node of the cluster.
+
+  `/usr/lib/kafka/bin/kafka-console-consumer.sh --bootstrap-server ${CLUSTER_NAME}-w-1:9092 --topic test --from-beginning`
 
 
 ### Reporting bugs
