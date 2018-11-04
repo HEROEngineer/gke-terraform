@@ -29,7 +29,7 @@ Table of Contents (dataproc cluster debian-9 with zookeeper, kafka ,BigQuery and
 
 3. Clone this repository and cd into dataproc folder. `git clone https://github.com/cloudgear-io/gke-terraform && cd gke-terraform/dataproc`
 
-4. Please create Service Credential of type **JSON** via https://console.cloud.google.com/apis/credentials, download and save as google.json in credentials folder.
+4. Please create **Service Credential** of type **JSON** via https://console.cloud.google.com/apis/credentials, download and save as **google.json** in **credentials** folder.
 
 ### Creation and destroying
 `terraform init`
