@@ -8,6 +8,8 @@ Table of Contents (GKE and tools with Terraform)
 5. [Automatic provisioning](#automatic-provisioning)
 6. [Reporting bugs](#reporting-bugs)
 7. [Patches and pull requests](#patches-and-pull-requests)
+8. [License](#license)
+9. [Code of conduct](#code-of-conduct)
 
 # Google Kubernetes Engine with Terraform
 
@@ -132,3 +134,9 @@ Bugs have auto template defined. Please view it [here](https://github.com/cloudg
 ### Patches and pull requests
 
 Patches can be submitted as GitHub pull requests. If using GitHub please make sure your branch applies to the current master as a 'fast forward' merge (i.e. without creating a merge commit). Use the `git rebase` command to update your branch to the current master if necessary.
+
+### License
+  * Please see the [LICENSE file](https://github.com/cloudgear-io/gke-terraform/blob/master/LICENSE) for licensing information.
+
+### Code of Conduct
+  * Please see the [Code of Conduct](https://github.com/cloudgear-io/gke-terraform/blob/master/CODE_OF_CONDUCT.md)
