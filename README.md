@@ -103,7 +103,7 @@ Please shoot in dockerized format:
 
  A live example is [here](http://buildservers.westeurope.cloudapp.azure.com:5003/) for this project. 
 
-  ### Automatic Provisioning
+ ### Automatic Provisioning
 
 https://github.com/cloudgear-io/gke-terraform
 
