@@ -90,13 +90,13 @@ resource "null_resource" "provision" {
   }
 
   provisioner "local-exec" {
-    command = "helm repo add gitlab https://charts.gitlab.io/ && helm repo add ibm-charts https://raw.githubusercontent.com/IBM/charts/master/repo/stable/ && helm repo add bitnami https://charts.bitnami.com/bitnami"
+    command = "helm repo add gitlab https://charts.gitlab.io/ && helm repo add ibm-charts https://raw.githubusercontent.com/IBM/charts/master/repo/stable/ && helm repo add bitnami https://charts.bitnami.com/bitnami && helm repo add coreos https://s3-eu-west-1.amazonaws.com/coreos-charts/stable/"
   }
 
   provisioner "local-exec" {
     command = "helm repo update"
   }
-
+/*
   provisioner "local-exec" {
     command = <<EOF
               if [ "${var.install_prometheus_grafana}" = "true" ]; then
@@ -116,11 +116,11 @@ resource "null_resource" "provision" {
               fi
         EOF
   }
-
+*/
   provisioner "local-exec" {
     command = <<EOF
                 if [ "${var.install_prometheus_grafana}" = "true" ]; then
-                    cd prometheus-operator && helm install helm/kube-prometheus --name kube-prometheus --namespace monitoring
+                    helm install coreos/prometheus-operator --name prometheus-operator --wait --namespace monitoring  && helm install coreos/kube-prometheus --name kube-prometheus --wait --namespace monitoring --set rbacEnable=true
                 else
                     echo ${var.install_prometheus_grafana}
                 fi
