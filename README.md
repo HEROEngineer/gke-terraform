@@ -119,7 +119,7 @@ Pre-req:
 
 Plan:
 
-`terraform init && terraform plan -var cluster_label=devgke -var cluster_location=us-west1 -var cluster_name=devgkeclus -var cluster_tag=devgkeuswest -var helm_install_jenkins=false -var install_ibm_mq=true -var install_prometheus_grafana=true -var install_suitecrm=false -var master_auth_password=\!@#olie\!@#olie\!@#23D# -var master_auth_username=admin -var node_count=1 -var patch_ibm_mq_lbr_external=true -var patch_prom_graf_lbr_external=true -var project=<<your-google-cloud-project-name>> -out "run.plan"`
+`terraform init && terraform plan -var cluster_label=devgke -var cluster_location=us-west1 -var cluster_name=devgkeclus -var cluster_tag=devgkeuswest -var helm_install_jenkins=false -var install_ibm_mq=false -var install_prometheus_grafana=true -var install_suitecrm=false -var master_auth_password=\!@#olie\!@#olie\!@#23D# -var master_auth_username=admin -var node_count=1 -var patch_ibm_mq_lbr_external=false -var patch_prom_graf_lbr_external=true -var project=<<your-google-cloud-project-name>> -out "run.plan"`
 
 Apply:
 
@@ -127,7 +127,7 @@ Apply:
 
 Destroy:
 
-`terraform destroy -var cluster_label=devgke -var cluster_location=us-west1 -var cluster_name=devgkeclus -var cluster_tag=devgkeuswest -var helm_install_jenkins=false -var install_ibm_mq=true -var install_prometheus_grafana=true -var install_suitecrm=false -var master_auth_password=\!@#olie\!@#olie\!@#23D# -var master_auth_username=admin -var node_count=1 -var patch_ibm_mq_lbr_external=true -var patch_prom_graf_lbr_external=true -var project=<<your-google-cloud-project-name>>`
+`terraform destroy -var cluster_label=devgke -var cluster_location=us-west1 -var cluster_name=devgkeclus -var cluster_tag=devgkeuswest -var helm_install_jenkins=false -var install_ibm_mq=false -var install_prometheus_grafana=true -var install_suitecrm=false -var master_auth_password=\!@#olie\!@#olie\!@#23D# -var master_auth_username=admin -var node_count=1 -var patch_ibm_mq_lbr_external=false -var patch_prom_graf_lbr_external=true -var project=<<your-google-cloud-project-name>>`
 
 ### Reporting bugs
 
