@@ -38,11 +38,10 @@ Table of Contents (GKE and tools with Terraform)
 |   Prompted variables	| Expected value  	|
 |---	|---	|
 |   cluster_name	|Name of the GKE Cluster  	|
-|   cluster_location	|us-central1 or eu-westeurope2 (UK)  or  eu-westeurope4 (NL) any other region  	|
+|   cluster_location	|us-central1 or europe-west2 (UK)  or  europe-west4 (NL) any other region  	|
 |   node_count	| master count - 1 master is to three minimum workers e.g: 1  	|
 |   master_auth_username	|admin 	|
 |   master_auth_password	|16 letters and strong like e.g: !@#olie!@#olie!@#23D# 	|
-|   cluster_label	|dev or tst or uat/prod	|
 |   cluster_tag	|gke_devor gke_tst or gke_uat or gke_prod	|
 |   project	|The GCP project name	|
 |   gcp_machine_type	|https://cloud.google.com/compute/docs/machine-types   	|

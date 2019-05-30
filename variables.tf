@@ -18,9 +18,6 @@ variable "master_auth_password" {
   description = "Please enter the master auth password "
 }
 
-variable "cluster_label" {
-  description = "Please enter the cluster label "
-}
 
 variable "cluster_tag" {
   description = "Please enter the cluster tag "

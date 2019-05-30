@@ -9,7 +9,7 @@ resource "google_container_cluster" "primary" {
   min_master_version = "${data.google_container_engine_versions.gce_version_zone.latest_node_version}"
   node_version       = "${data.google_container_engine_versions.gce_version_zone.latest_node_version}"
 
-  additional_zones = [
+  node_locations = [
     "${var.cluster_location}-b",
     "${var.cluster_location}-c",
   ]
@@ -31,9 +31,6 @@ resource "google_container_cluster" "primary" {
       "https://www.googleapis.com/auth/projecthosting",
     ]
 
-    labels {
-      foo = "${var.cluster_label}"
-    }
 
     tags = ["${var.cluster_tag}"]
   }
@@ -83,10 +80,6 @@ resource "null_resource" "provision" {
                 fi
         EOF
 
-    timeouts {
-      create = "20m"
-      delete = "20m"
-    }
   }
 
   provisioner "local-exec" {
