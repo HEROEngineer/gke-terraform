@@ -113,7 +113,7 @@ resource "null_resource" "provision" {
   provisioner "local-exec" {
     command = <<EOF
                 if [ "${var.install_prometheus_grafana}" = "true" ]; then
-                    helm install coreos/prometheus-operator --name prometheus-operator --wait --namespace monitoring  && helm install coreos/kube-prometheus --name kube-prometheus --wait --namespace monitoring --set rbacEnable=true
+                    helm install stable/prometheus-operator --name prometheus-operator --wait --namespace monitoring
                 else
                     echo ${var.install_prometheus_grafana}
                 fi
@@ -149,6 +149,27 @@ resource "null_resource" "provision" {
                 fi
           EOF
   }
+
+  provisioner "local-exec" {
+    command = <<EOF
+              if [ "${var.patch_ibm_mq_lbr_external}" = "true" ]; then
+                  kubectl patch svc mqserver-ibm-mq -p '{"spec":{"type":"LoadBalancer"}}' --namespace ibm
+              else
+                  echo ${var.patch_ibm_mq_lbr_external}
+              fi
+        EOF
+  }
+  provisioner "local-exec" {
+    command = <<EOF
+                if [ "${var.install_suitecrm}" = "true" ]; then
+                    kubectl create namespace sugarcrm && helm install --name sugarcrm-dev --set allowEmptyPassword=false,mariadb.rootUser.password=secretpassword,mariadb.db.password=secretpassword stable/suitecrm --namespace sugarcrm && sleep 90 && export APP_HOST=$(kubectl get svc --namespace sugarcrm sugarcrm-dev-suitecrm --template "{{ range (index .status.loadBalancer.ingress 0) }}{{.}}{{ end }}") && export APP_PASSWORD=$(kubectl get secret --namespace sugarcrm sugarcrm-dev-suitecrm -o jsonpath="{.data.suitecrm-password}" | base64 --decode) && export APP_DATABASE_PASSWORD=$(kubectl get secret --namespace sugarcrm sugarcrm-dev-mariadb -o jsonpath="{.data.mariadb-password}" | base64 --decode) && helm upgrade sugarcrm-dev stable/suitecrm --set suitecrmHost=$APP_HOST,suitecrmPassword=$APP_PASSWORD,mariadb.db.password=$APP_DATABASE_PASSWORD
+                else
+                    echo ${var.install_suitecrm}
+                fi
+          EOF
+  }
+  depends_on = ["google_container_cluster.primary"]
+}
 
   provisioner "local-exec" {
     command = <<EOF
