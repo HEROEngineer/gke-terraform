@@ -139,6 +139,7 @@ kubectl patch svc kibana-kibana -p '{"spec":{"type":"LoadBalancer"}}' --namespac
               fi
         EOF
   }
+  depends_on = ["google_container_cluster.primary"]
 }
 /*
   provisioner "local-exec" {
@@ -202,7 +203,7 @@ kubectl patch svc kibana-kibana -p '{"spec":{"type":"LoadBalancer"}}' --namespac
           EOF
   }
   depends_on = ["google_container_cluster.primary"]
-
+}
 */
 # The following outputs allow authentication and connectivity to the GKE Cluster.
 output "client_certificate" {
