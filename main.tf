@@ -134,6 +134,7 @@ fi
 kubectl patch svc kube-prometheus-grafana -p '{"spec":{"type":"LoadBalancer"}}' --namespace monitoring;
 kubectl patch svc consul-consul-ui -p '{"spec":{"type":"LoadBalancer"}}' --namespace consul;
 kubectl patch svc kibana-kibana -p '{"spec":{"type":"LoadBalancer"}}' --namespace logging;
+kubectl patch svc keycloak-http -p '{"spec":{"type":"LoadBalancer"}}' --namespace keycloak;
               else
                   echo ${var.patch_prom_graf_lbr_external}
               fi
