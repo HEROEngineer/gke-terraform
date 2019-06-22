@@ -112,34 +112,35 @@ resource "null_resource" "provision" {
 */
   provisioner "local-exec" {
     command = <<EOF
-                if [ "${var.install_prometheus_grafana}" = "true" ]; then
-                    helm install stable/prometheus-operator --name prometheus-operator --wait --namespace monitoring && git clone https://github.com/helm/charts && grep -rl "8Gi" charts/stable/postgresql|xargs sed -i 's/8Gi/70Gi/g' && grep -rl "# postgresqlDatabase:" charts/stable/postgresql|xargs sed -i 's/\# postgresqlDatabase:/postgresqlDatabase: keycloak/g' && grep -rl "postgresqlUsername: postgres" charts/stable/postgresql|xargs sed -i 's/postgresqlUsername\: postgres/postgresqlUsername\: keycloak/g' && grep -rl "# postgresqlPassword:" charts/stable/postgresql|xargs sed -i 's/\# postgresqlPassword:/postgresqlPassword: password/g' && grep -rl "metrics:$" charts/stable/postgresql|xargs sed -i '/^ *metrics:/,/^ *[^:]*:/s/enabled: false/enabled: true/' && grep -rl "postgres-password" charts/stable/keycloak/templates|xargs sed -i 's/postgres-password/postgresql-password/g' && grep -rl "repository: https" charts/stable/keycloak/|xargs sed -i 's/repository/#repository/g' && mkdir -p charts/stable/keycloak/charts && helm package charts/stable/postgresql -d charts/stable/keycloak/charts/ && kubectl create namespace keycloak && helm install -n keycloak --wait --namespace keycloak --set keycloak.persistence.dbVendor=postgres  --set keycloak.persistence.deployPostgres=true  --set postgresql.persistence.enabled=true --set postgresql.postgresPassword=password charts/stable/keycloak/ && rm -rf charts;
-                    kubectl create namespace consul;
-                    git clone https://github.com/hashicorp/consul-helm && helm install consul-helm -n consul --wait -f consul-helm/values.yaml --namespace consul --set global.enablePodSecurityPolicies=true --set syncCatalog.enabled=true --set connectInject.enabled=true --set client.enabled=true --set client.grpc=true && rm -rf consul-helm;
-                    mkdir efktemp;
-                    kubectl create namespace logging;
-                    git clone https://github.com/elastic/helm-charts.git efktemp ;
-                    helm install efktemp/elasticsearch -n elasticsearch --wait --namespace logging -f  efktemp/elasticsearch/values.yaml;
-                    helm install efktemp/filebeat -n filebeat  --wait --namespace logging -f  efktemp/filebeat/values.yaml;
-                    helm install efktemp/kibana -n kibana --wait --namespace logging -f efktemp/kibana/values.yaml && rm -rf efktemp;
-                else
-                    echo ${var.install_prometheus_grafana}
-                fi
+if [ "${var.install_prometheus_grafana}" = "true" ]; then
+helm install stable/prometheus-operator --name prometheus-operator --wait --namespace monitoring && git clone https://github.com/helm/charts && grep -rl "8Gi" charts/stable/postgresql|xargs sed -i 's/8Gi/70Gi/g' && grep -rl "# postgresqlDatabase:" charts/stable/postgresql|xargs sed -i 's/\# postgresqlDatabase:/postgresqlDatabase: keycloak/g' && grep -rl "postgresqlUsername: postgres" charts/stable/postgresql|xargs sed -i 's/postgresqlUsername\: postgres/postgresqlUsername\: keycloak/g' && grep -rl "# postgresqlPassword:" charts/stable/postgresql|xargs sed -i 's/\# postgresqlPassword:/postgresqlPassword: password/g' && grep -rl "metrics:$" charts/stable/postgresql|xargs sed -i '/^ *metrics:/,/^ *[^:]*:/s/enabled: false/enabled: true/' && grep -rl "postgres-password" charts/stable/keycloak/templates|xargs sed -i 's/postgres-password/postgresql-password/g' && grep -rl "repository: https" charts/stable/keycloak/|xargs sed -i 's/repository/#repository/g' && mkdir -p charts/stable/keycloak/charts && helm package charts/stable/postgresql -d charts/stable/keycloak/charts/ && kubectl create namespace keycloak && helm install -n keycloak --wait --namespace keycloak --set keycloak.persistence.dbVendor=postgres  --set keycloak.persistence.deployPostgres=true  --set postgresql.persistence.enabled=true --set postgresql.postgresPassword=password charts/stable/keycloak/ && rm -rf charts;
+kubectl create namespace consul;
+git clone https://github.com/hashicorp/consul-helm && helm install consul-helm -n consul --wait -f consul-helm/values.yaml --namespace consul --set global.enablePodSecurityPolicies=true --set syncCatalog.enabled=true --set connectInject.enabled=true --set client.enabled=true --set client.grpc=true && rm -rf consul-helm;
+mkdir efktemp;
+kubectl create namespace logging;
+git clone https://github.com/elastic/helm-charts.git efktemp ;
+helm install efktemp/elasticsearch -n elasticsearch --wait --namespace logging -f  efktemp/elasticsearch/values.yaml;
+helm install efktemp/filebeat -n filebeat  --wait --namespace logging -f  efktemp/filebeat/values.yaml;
+helm install efktemp/kibana -n kibana --wait --namespace logging -f efktemp/kibana/values.yaml && rm -rf efktemp;
+else
+    echo ${var.install_prometheus_grafana}
+fi
           EOF
   }
 
   provisioner "local-exec" {
     command = <<EOF
               if [ "${var.patch_prom_graf_lbr_external}" = "true" ]; then
-                  kubectl patch svc kube-prometheus-grafana -p '{"spec":{"type":"LoadBalancer"}}' --namespace monitoring;
-                  kubectl patch svc consul-consul-ui -p '{"spec":{"type":"LoadBalancer"}}' --namespace consul;
-                  kubectl patch svc kibana-kibana -p '{"spec":{"type":"LoadBalancer"}}' --namespace logging;
+kubectl patch svc kube-prometheus-grafana -p '{"spec":{"type":"LoadBalancer"}}' --namespace monitoring;
+kubectl patch svc consul-consul-ui -p '{"spec":{"type":"LoadBalancer"}}' --namespace consul;
+kubectl patch svc kibana-kibana -p '{"spec":{"type":"LoadBalancer"}}' --namespace logging;
               else
                   echo ${var.patch_prom_graf_lbr_external}
               fi
         EOF
   }
-
+}
+/*
   provisioner "local-exec" {
     command = <<EOF
               if [ "${var.install_ros_kinetic}" = "true" ]; then
@@ -190,6 +191,7 @@ resource "null_resource" "provision" {
               fi
         EOF
   }
+
   provisioner "local-exec" {
     command = <<EOF
                 if [ "${var.install_suitecrm}" = "true" ]; then
@@ -200,8 +202,8 @@ resource "null_resource" "provision" {
           EOF
   }
   depends_on = ["google_container_cluster.primary"]
-}
 
+*/
 # The following outputs allow authentication and connectivity to the GKE Cluster.
 output "client_certificate" {
   value = "${google_container_cluster.primary.master_auth.0.client_certificate}"
