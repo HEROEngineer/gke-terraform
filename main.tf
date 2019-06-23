@@ -67,7 +67,8 @@ resource "null_resource" "provision" {
 
   provisioner "local-exec" {
     command = <<EOF
-            sleep 30
+            sleep 30;
+            rm -rf get_helm.sh;
       EOF
   }
 
