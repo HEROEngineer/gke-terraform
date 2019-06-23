@@ -116,7 +116,21 @@ resource "null_resource" "provision" {
 if [ "${var.install_prometheus_grafana}" = "true" ]; then
 kubectl create namespace monitoring;
 helm install stable/prometheus-operator --name prometheus-operator --wait --namespace monitoring;
-git clone https://github.com/helm/charts && grep -rl "8Gi" charts/stable/postgresql|xargs sed -i 's/8Gi/70Gi/g' && grep -rl "# postgresqlDatabase:" charts/stable/postgresql|xargs sed -i 's/\# postgresqlDatabase:/postgresqlDatabase: keycloak/g' && grep -rl "postgresqlUsername: postgres" charts/stable/postgresql|xargs sed -i 's/postgresqlUsername\: postgres/postgresqlUsername\: keycloak/g' && grep -rl "# postgresqlPassword:" charts/stable/postgresql|xargs sed -i 's/\# postgresqlPassword:/postgresqlPassword: password/g' && grep -rl "metrics:$" charts/stable/postgresql|xargs sed -i '/^ *metrics:/,/^ *[^:]*:/s/enabled: false/enabled: true/' && grep -rl "postgres-password" charts/stable/keycloak/templates|xargs sed -i 's/postgres-password/postgresql-password/g' && grep -rl "repository: https" charts/stable/keycloak/|xargs sed -i 's/repository/#repository/g' && mkdir -p charts/stable/keycloak/charts && helm package charts/stable/postgresql -d charts/stable/keycloak/charts/ && kubectl create namespace keycloak && helm install -n keycloak --wait --namespace keycloak --set keycloak.persistence.dbVendor=postgres  --set keycloak.persistence.deployPostgres=true  --set postgresql.persistence.enabled=true --set postgresql.postgresPassword=password charts/stable/keycloak/ && rm -rf charts;
+git clone https://github.com/codecentric/helm-charts;
+git clone https://github.com/helm/charts;
+grep -rl "8Gi" charts/stable/postgresql|xargs sed -i 's/8Gi/70Gi/g';
+grep -rl "# postgresqlDatabase:" charts/stable/postgresql|xargs sed -i 's/\# postgresqlDatabase:/postgresqlDatabase: keycloak/g';
+grep -rl "postgresqlUsername: postgres" charts/stable/postgresql|xargs sed -i 's/postgresqlUsername\: postgres/postgresqlUsername\: keycloak/g';
+grep -rl "# postgresqlPassword:" charts/stable/postgresql|xargs sed -i 's/\# postgresqlPassword:/postgresqlPassword: password/g';
+grep -rl "metrics:$" charts/stable/postgresql|xargs sed -i '/^ *metrics:/,/^ *[^:]*:/s/enabled: false/enabled: true/';
+grep -rl "postgres-password" helm-charts/charts/keycloak/templates|xargs sed -i 's/postgres-password/postgresql-password/g';
+grep -rl "repository: https" helm-charts/charts/keycloak/|xargs sed -i 's/repository/#repository/g';
+mkdir -p helm-charts/charts/keycloak/charts;
+helm package charts/stable/postgresql -d helm-charts/charts/keycloak/charts;
+kubectl create namespace keycloak;
+helm install -n keycloak --wait --namespace keycloak --set keycloak.persistence.dbVendor=postgres --set keycloak.persistence.deployPostgres=true --set postgresql.persistence.enabled=true --set keycloak.password=password  helm-charts/charts/keycloak;
+rm -rf charts;
+rm -rf helm-charts;
 kubectl create namespace consul;
 git clone https://github.com/hashicorp/consul-helm && helm install consul-helm -n consul --wait -f consul-helm/values.yaml --namespace consul --set global.enablePodSecurityPolicies=true --set syncCatalog.enabled=true --set connectInject.enabled=true --set client.enabled=true --set client.grpc=true && rm -rf consul-helm;
 mkdir efktemp;
