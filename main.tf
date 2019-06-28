@@ -84,7 +84,7 @@ resource "null_resource" "provision" {
   }
 
   provisioner "local-exec" {
-    command = "helm repo add gitlab https://charts.gitlab.io/ && helm repo add ibm-charts https://raw.githubusercontent.com/IBM/charts/master/repo/stable/ && helm repo add bitnami https://charts.bitnami.com/bitnami && helm repo add coreos https://s3-eu-west-1.amazonaws.com/coreos-charts/stable/"
+    command = "helm repo add gitlab https://charts.gitlab.io/ && helm repo add ibm-charts https://raw.githubusercontent.com/IBM/charts/master/repo/stable/ && helm repo add bitnami https://charts.bitnami.com/bitnami && helm repo add coreos https://s3-eu-west-1.amazonaws.com/coreos-charts/stable/ && helm repo add brigade https://brigadecore.github.io/charts"
   }
 
   provisioner "local-exec" {
