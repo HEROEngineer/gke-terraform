@@ -140,6 +140,7 @@ helm install efktemp/elasticsearch -n elasticsearch --wait --namespace logging -
 helm install efktemp/filebeat -n filebeat  --wait --namespace logging -f  efktemp/filebeat/values.yaml;
 helm install efktemp/kibana -n kibana --wait --namespace logging -f efktemp/kibana/values.yaml && rm -rf efktemp;
 kubectl create namespace postgres && helm install -n postgres --wait --namespace postgres --set persistence.size=50Gi --set postgresqlDatabase=metricsdb --set metrics.enabled=true stable/postgresql;
+kubectl create namespace brigade && helm install --name brigade-server --wait --namespace brigade  --set brigade-github-app.enabled=true brigade/brigade;
 else
     echo ${var.install_prometheus_grafana}
 fi
