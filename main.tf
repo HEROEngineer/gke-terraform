@@ -123,7 +123,6 @@ grep -rl "# postgresqlDatabase:" charts/stable/postgresql|xargs sed -i 's/\# pos
 grep -rl "postgresqlUsername: postgres" charts/stable/postgresql|xargs sed -i 's/postgresqlUsername\: postgres/postgresqlUsername\: keycloak/g';
 grep -rl "# postgresqlPassword:" charts/stable/postgresql|xargs sed -i 's/\# postgresqlPassword:/postgresqlPassword: password/g';
 grep -rl "metrics:$" charts/stable/postgresql|xargs sed -i '/^ *metrics:/,/^ *[^:]*:/s/enabled: false/enabled: true/';
-grep -rl "postgres-password" helm-charts/charts/keycloak/templates|xargs sed -i 's/postgres-password/postgresql-password/g';
 grep -rl "repository: https" helm-charts/charts/keycloak/|xargs sed -i 's/repository/#repository/g';
 mkdir -p helm-charts/charts/keycloak/charts;
 helm package charts/stable/postgresql -d helm-charts/charts/keycloak/charts;
