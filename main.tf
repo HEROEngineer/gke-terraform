@@ -138,6 +138,9 @@ git clone https://github.com/elastic/helm-charts.git efktemp ;
 helm install efktemp/elasticsearch -n elasticsearch --wait --namespace logging -f  efktemp/elasticsearch/values.yaml;
 helm install efktemp/filebeat -n filebeat  --wait --namespace logging -f  efktemp/filebeat/values.yaml;
 helm install efktemp/kibana -n kibana --wait --namespace logging -f efktemp/kibana/values.yaml && rm -rf efktemp;
+wget https://download.elastic.co/downloads/eck/0.8.1/all-in-one.yaml;
+grep -rl elastic-system|xargs sed -i 's/elastic-system/logging/g';
+kubectl apply -f all-in-one.yaml;
 kubectl create namespace postgres && helm install -n postgres --wait --namespace postgres --set persistence.size=50Gi --set postgresqlDatabase=metricsdb --set metrics.enabled=true stable/postgresql;
 kubectl create namespace brigade && helm install --name brigade-server --wait --namespace brigade  --set brigade-github-app.enabled=true brigade/brigade;
 else
