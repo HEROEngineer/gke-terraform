@@ -132,7 +132,7 @@ helm install -n keycloak --wait --namespace keycloak --set keycloak.persistence.
 rm -rf charts;
 rm -rf helm-charts;
 kubectl create namespace consul;
-git clone https://github.com/hashicorp/consul-helm && helm install consul-helm -n consul --wait -f consul-helm/values.yaml --namespace consul --set global.enablePodSecurityPolicies=true --set syncCatalog.enabled=true --set connectInject.enabled=true --set client.enabled=true --set client.grpc=true --set meshGateway.enabled=true  --set connectInject.centralConfig.enabled=true --set global.enabled=true && rm -rf consul-helm;
+git clone https://github.com/hashicorp/consul-helm && helm install consul-helm -n consul --wait -f consul-helm/values.yaml --namespace consul --set global.enablePodSecurityPolicies=true --set syncCatalog.enabled=true --set connectInject.enabled=true --set client.enabled=true --set client.grpc=true --set connectInject.centralConfig.enabled=true --set global.enabled=true && rm -rf consul-helm;
 mkdir efktemp;
 kubectl create namespace logging;
 git clone https://github.com/elastic/helm-charts.git efktemp ;
