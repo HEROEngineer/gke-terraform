@@ -116,6 +116,7 @@ resource "null_resource" "provision" {
 if [ "${var.install_prometheus_grafana}" = "true" ]; then
 kubectl create namespace monitoring;
 helm install stable/prometheus-operator --name prometheus-operator --wait --namespace monitoring;
+/*
 git clone https://github.com/codecentric/helm-charts;
 git clone https://github.com/helm/charts;
 grep -rl "8Gi" charts/stable/postgresql|xargs sed -i 's/8Gi/70Gi/g';
@@ -131,8 +132,9 @@ kubectl create namespace keycloak;
 helm install -n keycloak --wait --namespace keycloak --set keycloak.persistence.dbVendor=postgres --set keycloak.persistence.deployPostgres=true --set postgresql.persistence.enabled=true --set keycloak.password=password  helm-charts/charts/keycloak;
 rm -rf charts;
 rm -rf helm-charts;
+*/
 kubectl create namespace consul;
-git clone https://github.com/hashicorp/consul-helm && helm install consul-helm -n consul --wait -f consul-helm/values.yaml --namespace consul --set global.enablePodSecurityPolicies=true --set syncCatalog.enabled=true --set connectInject.enabled=true --set client.enabled=true --set client.grpc=true && rm -rf consul-helm;
+git clone https://github.com/hashicorp/consul-helm && helm install consul-helm -n consul --wait -f consul-helm/values.yaml --namespace consul --set global.enablePodSecurityPolicies=true --set syncCatalog.enabled=true --set connectInject.enabled=true --set client.enabled=true --set client.grpc=true --set meshGateway.enabled=true  --set connectInject.centralConfig.enabled=true --set global.enabled=true && rm -rf consul-helm;
 mkdir efktemp;
 kubectl create namespace logging;
 git clone https://github.com/elastic/helm-charts.git efktemp ;
