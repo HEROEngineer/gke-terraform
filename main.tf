@@ -1,13 +1,13 @@
-data "google_container_engine_versions" "gce_version_zone" {
-  zone = "${var.cluster_location}-a"
+data "google_container_engine_versions" "gce_version_location" {
+  location = "${var.cluster_location}"
 }
 
 resource "google_container_cluster" "primary" {
   name               = "${var.cluster_name}"
-  zone               = "${var.cluster_location}-a"
+  location               = "${var.cluster_location}"
   initial_node_count = "${var.node_count}"
-  min_master_version = "${data.google_container_engine_versions.gce_version_zone.latest_master_version}"
-  node_version       = "${data.google_container_engine_versions.gce_version_zone.latest_master_version}"
+  min_master_version = "${data.google_container_engine_versions.gce_version_location.latest_master_version}"
+  node_version       = "${data.google_container_engine_versions.gce_version_location.latest_master_version}"
 
   node_locations = [
     "${var.cluster_location}-b",
@@ -38,7 +38,7 @@ resource "google_container_cluster" "primary" {
 
 resource "null_resource" "provision" {
   provisioner "local-exec" {
-    command = "gcloud container clusters get-credentials ${var.cluster_name} --zone ${var.cluster_location}-a --project ${var.project}"
+    command = "gcloud container clusters get-credentials ${var.cluster_name} --region ${var.cluster_location} --project ${var.project}"
   }
 
   provisioner "local-exec" {
