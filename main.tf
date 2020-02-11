@@ -4,7 +4,7 @@ data "google_container_engine_versions" "gce_version_location" {
 
 resource "google_container_cluster" "primary" {
   name               = "${var.cluster_name}"
-  location               = "${var.cluster_location}"
+  location           = "${var.cluster_location}"
   initial_node_count = "${var.node_count}"
   min_master_version = "${data.google_container_engine_versions.gce_version_location.latest_master_version}"
   node_version       = "${data.google_container_engine_versions.gce_version_location.latest_master_version}"
@@ -90,7 +90,7 @@ resource "null_resource" "provision" {
   provisioner "local-exec" {
     command = "helm repo update"
   }
-/*
+  /*
   provisioner "local-exec" {
     command = <<EOF
               if [ "${var.install_prometheus_grafana}" = "true" ]; then
