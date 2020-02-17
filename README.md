@@ -56,7 +56,7 @@ Pre-req:
 
 Plan:
 
-`terraform init && terraform plan -var cluster_label=devgke -var cluster_location=us-west1 -var cluster_name=devgkeclus -var cluster_tag=devgkeuswest  -var master_auth_password=\!@#olie\!@#olie\!@#23D# -var master_auth_username=admin -var node_count=1 -var project=<<your-google-cloud-project-name>> -out "run.plan"`
+`terraform init && terraform plan -var cluster_location=us-west1 -var cluster_name=devgkeclus -var cluster_tag=devgkeuswest  -var master_auth_password=\!@#olie\!@#olie\!@#23D# -var master_auth_username=admin -var node_count=1 -var project=<<your-google-cloud-project-name>> -out "run.plan"`
 
 Apply:
 
@@ -64,7 +64,7 @@ Apply:
 
 Destroy:
 
-`terraform destroy -var cluster_label=devgke -var cluster_location=us-west1 -var cluster_name=devgkeclus -var cluster_tag=devgkeuswest -var master_auth_password=\!@#olie\!@#olie\!@#23D# -var master_auth_username=admin -var node_count=1 -var project=<<your-google-cloud-project-name>>`
+`terraform destroy -var cluster_location=us-west1 -var cluster_name=devgkeclus -var cluster_tag=devgkeuswest -var master_auth_password=\!@#olie\!@#olie\!@#23D# -var master_auth_username=admin -var node_count=1 -var project=<<your-google-cloud-project-name>>`
 
 ### Reporting bugs
 
