@@ -2,14 +2,16 @@ Table of Contents (GKE and tools with Terraform)
 =================
 
 1. [Google Kubernetes Engine with Terraform ](#google-cloud-with-terraform)
+<!-- a normal html comment --!>
 2. [All Services](#all-services)
 3. [Obtaining users and passes](#obtaining-users-and-passes)
-4. [Terraform graph](#terraform-graph)
-5. [Automatic provisioning](#automatic-provisioning)
-6. [Reporting bugs](#reporting-bugs)
-7. [Patches and pull requests](#patches-and-pull-requests)
-8. [License](#license)
-9. [Code of conduct](#code-of-conduct)
+<!-- a normal html comment -->
+2. [Terraform graph](#terraform-graph)
+3. [Automatic provisioning](#automatic-provisioning)
+4. [Reporting bugs](#reporting-bugs)
+5. [Patches and pull requests](#patches-and-pull-requests)
+6. [License](#license)
+7. [Code of conduct](#code-of-conduct)
 
 # Google Kubernetes Engine with Terraform
 
@@ -44,6 +46,7 @@ Table of Contents (GKE and tools with Terraform)
 |   master_auth_password	|16 letters and strong like e.g: !@#olie!@#olie!@#23D# 	|
 |   cluster_tag	|gke_devor gke_tst or gke_uat or gke_prod	|
 |   project	|The GCP project name	|
+<!-- a normal html comment --!>
 |   gcp_machine_type	|https://cloud.google.com/compute/docs/machine-types   	|
 |   helm_install_jenkins	|Install Jenkins OR Not [with auto PV] as per values in yaml   	|
 |   install_prometheus_grafana	|Install prometheus and Grafana for cluster as helm package   	|
@@ -92,7 +95,7 @@ User/Password for grafana (generally `admin/admin`)
 
 `kubectl get secret --namespace monitoring kube-prometheus-grafana -o jsonpath="{.data.user}" | base64 --decode ; echo`
 
-
+<!-- a normal html comment -->
 ### Terraform Graph
 Please generate dot format (Graphviz) terraform configuration graphs for visual representation of the repo.
 
@@ -102,9 +105,9 @@ Also, one can use [Blast Radius](https://github.com/28mm/blast-radius) on live i
 Please shoot in dockerized format:
 
 `docker ps -a|grep blast-radius|awk '{print $1}'|xargs docker kill && rm -rf gke-terraform && git clone https://github.com/cloudgear-io/gke-terraform && cd gke-terraform && terraform init && docker run --cap-add=SYS_ADMIN -dit --rm -p 5003:5000 -v $(pwd):/workdir:ro 28mm/blast-radius`
-
+<!-- a normal html comment --!>
  A live example is [here](http://buildservers.westeurope.cloudapp.azure.com:5003/) for this project. 
-
+<!-- a normal html comment -->
  ### Automatic Provisioning
 
 https://github.com/cloudgear-io/gke-terraform
@@ -118,7 +121,7 @@ Pre-req:
 
 Plan:
 
-`terraform init && terraform plan -var cluster_label=devgke -var cluster_location=us-west1 -var cluster_name=devgkeclus -var cluster_tag=devgkeuswest -var helm_install_jenkins=false -var install_ibm_mq=false -var install_prometheus_grafana=true -var install_suitecrm=false -var master_auth_password=\!@#olie\!@#olie\!@#23D# -var master_auth_username=admin -var node_count=1 -var patch_ibm_mq_lbr_external=false -var patch_prom_graf_lbr_external=true -var project=<<your-google-cloud-project-name>> -out "run.plan"`
+`terraform init && terraform plan -var cluster_label=devgke -var cluster_location=us-west1 -var cluster_name=devgkeclus -var cluster_tag=devgkeuswest  -var master_auth_password=\!@#olie\!@#olie\!@#23D# -var master_auth_username=admin -var node_count=1 -var project=<<your-google-cloud-project-name>> -out "run.plan"`
 
 Apply:
 
@@ -126,7 +129,7 @@ Apply:
 
 Destroy:
 
-`terraform destroy -var cluster_label=devgke -var cluster_location=us-west1 -var cluster_name=devgkeclus -var cluster_tag=devgkeuswest -var helm_install_jenkins=false -var install_ibm_mq=false -var install_prometheus_grafana=true -var install_suitecrm=false -var master_auth_password=\!@#olie\!@#olie\!@#23D# -var master_auth_username=admin -var node_count=1 -var patch_ibm_mq_lbr_external=false -var patch_prom_graf_lbr_external=true -var project=<<your-google-cloud-project-name>>`
+`terraform destroy -var cluster_label=devgke -var cluster_location=us-west1 -var cluster_name=devgkeclus -var cluster_tag=devgkeuswest -var master_auth_password=\!@#olie\!@#olie\!@#23D# -var master_auth_username=admin -var node_count=1 -var project=<<your-google-cloud-project-name>>`
 
 ### Reporting bugs
 

@@ -34,13 +34,13 @@ resource "google_container_cluster" "primary" {
 
     tags = ["${var.cluster_tag}"]
   }
-}
 
-resource "null_resource" "provision" {
-  provisioner "local-exec" {
-    command = "gcloud container clusters get-credentials ${var.cluster_name} --region ${var.cluster_location} --project ${var.project}"
-  }
 
+  resource "null_resource" "provision" {
+    provisioner "local-exec" {
+      command = "gcloud container clusters get-credentials ${var.cluster_name} --region ${var.cluster_location} --project ${var.project}"
+    }
+    /*
   provisioner "local-exec" {
     command = "kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)"
   }
@@ -71,7 +71,6 @@ resource "null_resource" "provision" {
             rm -rf get_helm.sh;
       EOF
   }
-
   provisioner "local-exec" {
     command = <<EOF
                 if [ "${var.helm_install_jenkins}" = "true" ]; then
@@ -90,7 +89,7 @@ resource "null_resource" "provision" {
   provisioner "local-exec" {
     command = "helm repo update"
   }
-  /*
+  
   provisioner "local-exec" {
     command = <<EOF
               if [ "${var.install_prometheus_grafana}" = "true" ]; then
@@ -110,7 +109,7 @@ resource "null_resource" "provision" {
               fi
         EOF
   }
-*/
+
   provisioner "local-exec" {
     command = <<EOF
 if [ "${var.install_prometheus_grafana}" = "true" ]; then
@@ -164,7 +163,7 @@ kubectl patch svc keycloak-http -p '{"spec":{"type":"LoadBalancer"}}' --namespac
   }
   depends_on = ["google_container_cluster.primary"]
 }
-/*
+
   provisioner "local-exec" {
     command = <<EOF
               if [ "${var.install_ros_kinetic}" = "true" ]; then
@@ -215,7 +214,6 @@ kubectl patch svc keycloak-http -p '{"spec":{"type":"LoadBalancer"}}' --namespac
               fi
         EOF
   }
-
   provisioner "local-exec" {
     command = <<EOF
                 if [ "${var.install_suitecrm}" = "true" ]; then
@@ -225,10 +223,10 @@ kubectl patch svc keycloak-http -p '{"spec":{"type":"LoadBalancer"}}' --namespac
                 fi
           EOF
   }
-  depends_on = ["google_container_cluster.primary"]
+  */
+    depends_on = ["google_container_cluster.primary"]
+  }
 }
-*/
-# The following outputs allow authentication and connectivity to the GKE Cluster.
 output "client_certificate" {
   value = "${google_container_cluster.primary.master_auth.0.client_certificate}"
 }
