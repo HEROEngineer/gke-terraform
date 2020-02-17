@@ -1,26 +1,21 @@
 data "google_container_engine_versions" "gce_version_location" {
-  location = "${var.cluster_location}"
+  location = var.cluster_location
 }
 
 resource "google_container_cluster" "primary" {
-  name               = "${var.cluster_name}"
-  location           = "${var.cluster_location}"
-  initial_node_count = "${var.node_count}"
-  min_master_version = "${data.google_container_engine_versions.gce_version_location.latest_master_version}"
-  node_version       = "${data.google_container_engine_versions.gce_version_location.latest_master_version}"
-
-  node_locations = [
-    "${var.cluster_location}-b",
-    "${var.cluster_location}-c",
-  ]
+  name               = var.cluster_name
+  location           = var.cluster_location
+  initial_node_count = var.node_count
+  min_master_version = data.google_container_engine_versions.gce_version_location.latest_master_version
+  node_version       = data.google_container_engine_versions.gce_version_location.latest_master_version
 
   master_auth {
-    username = "${var.master_auth_username}"
-    password = "${var.master_auth_password}"
+    username = var.master_auth_username
+    password = var.master_auth_password
   }
 
   node_config {
-    machine_type = "${var.gcp_machine_type}"
+    machine_type = var.gcp_machine_type
 
     oauth_scopes = [
       "https://www.googleapis.com/auth/compute",
@@ -32,7 +27,7 @@ resource "google_container_cluster" "primary" {
     ]
 
 
-    tags = ["${var.cluster_tag}"]
+    tags = [var.cluster_tag]
   }
 }
 
@@ -224,17 +219,17 @@ kubectl patch svc keycloak-http -p '{"spec":{"type":"LoadBalancer"}}' --namespac
           EOF
   }
   */
-    depends_on = ["google_container_cluster.primary"]
+    depends_on = [google_container_cluster.primary]
   }
 
 output "client_certificate" {
-  value = "${google_container_cluster.primary.master_auth.0.client_certificate}"
+  value = google_container_cluster.primary.master_auth.0.client_certificate
 }
 
 output "client_key" {
-  value = "${google_container_cluster.primary.master_auth.0.client_key}"
+  value = google_container_cluster.primary.master_auth.0.client_key
 }
 
 output "cluster_ca_certificate" {
-  value = "${google_container_cluster.primary.master_auth.0.cluster_ca_certificate}"
+  value = google_container_cluster.primary.master_auth.0.cluster_ca_certificate
 }
