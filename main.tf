@@ -34,7 +34,7 @@ resource "google_container_cluster" "primary" {
 
     tags = ["${var.cluster_tag}"]
   }
-
+}
 
   resource "null_resource" "provision" {
     provisioner "local-exec" {
@@ -226,7 +226,7 @@ kubectl patch svc keycloak-http -p '{"spec":{"type":"LoadBalancer"}}' --namespac
   */
     depends_on = ["google_container_cluster.primary"]
   }
-}
+
 output "client_certificate" {
   value = "${google_container_cluster.primary.master_auth.0.client_certificate}"
 }
