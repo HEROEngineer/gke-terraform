@@ -31,15 +31,15 @@ resource "google_container_cluster" "primary" {
   }
 }
 
-  resource "null_resource" "provision" {
-    provisioner "local-exec" {
-      command = "gcloud container clusters get-credentials ${var.cluster_name} --region ${var.cluster_location} --project ${var.project}"
-    }
-    /*
+resource "null_resource" "provision" {
+  provisioner "local-exec" {
+    command = "gcloud container clusters get-credentials ${var.cluster_name} --region ${var.cluster_location} --project ${var.project}"
+  }
+
   provisioner "local-exec" {
     command = "kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value account)"
   }
-
+  /*
   provisioner "local-exec" {
     command = "kubectl create serviceaccount -n kube-system tiller && kubectl create clusterrolebinding tiller-binding --clusterrole=cluster-admin --serviceaccount kube-system:tiller"
   }
@@ -219,8 +219,8 @@ kubectl patch svc keycloak-http -p '{"spec":{"type":"LoadBalancer"}}' --namespac
           EOF
   }
   */
-    depends_on = [google_container_cluster.primary]
-  }
+  depends_on = [google_container_cluster.primary]
+}
 
 output "client_certificate" {
   value = google_container_cluster.primary.master_auth.0.client_certificate
