@@ -46,12 +46,12 @@ Table of Contents (dataproc cluster debian-9 with zookeeper, kafka ,BigQuery and
 
 Name | Role | Staging Bucket
 --- | --- | ---
-poccluster-m<br />poccluster-w-*| **Default 3 Masters and Auto HA with Zookepeer** <br />Number of workers are prompted | dataproc-poc-staging-bucket
+tstdataprocclus-m<br />tstdataprocclus-w-*| **Default 3 Masters and Auto HA with Zookepeer** <br />Number of workers are prompted | dataproc-poc-staging-bucket
 
 ### Cloud Dataproc version
 Version | Includes | Base OS | Released On | Last Updated (sub-minor version) | Notes
 --- | --- | --- | --- |--- |---
-1.3-deb9 | [Apache Spark 2.3.1](https://spark.apache.org/docs/2.3.1/)<br />[Apache Hadoop 2.9.0](https://hadoop.apache.org/docs/r2.9.0/index.html)<br />[Apache Pig 0.17.0](https://pig.apache.org/docs/r0.17.0/)<br />Apache Hive 2.3.2<br />[Apache Tez 0.9.0*](https://tez.apache.org/releases/apache-tez-0-9-0.html)<br />[Cloud Storage connector 1.9.8-hadoop2](https://github.com/GoogleCloudPlatform/bigdata-interop/releases/tag/v1.9.8) | Debian 9 | 2018/08/16 | 2018/10/26<br />([1.3.14-deb9](https://cloud.google.com/dataproc/docs/release-notes#october_26_2018)) | All releases on and after November 2, 2018 will be based on Debian 9.
+1.4-deb9 | [Apache Spark 2.4.4](https://spark.apache.org/docs/2.4.4/)<br />[Apache Hadoop 2.9.2](https://hadoop.apache.org/docs/r2.9.2/index.html)<br />[Apache Pig 0.17.0](https://pig.apache.org/docs/r0.17.0/)<br />Apache Hive 2.3.6<br />[Apache Tez 0.9.2*](https://tez.apache.org/releases/apache-tez-0-9-2.html)<br />[Cloud Storage connector 1.9.17-hadoop2](https://github.com/GoogleCloudPlatform/bigdata-interop/releases/tag/v1.9.17) | Debian 9 | 2020/02/03 | 2020/02/03<br />([1.4.21-deb9](https://cloud.google.com/dataproc/docs/release-notes#February_03_2020)) | All releases on and after November 2, 2018 will be based on Debian 9.
 
 ### URLs and extra components via dataproc-initialization-actions
 
@@ -108,7 +108,7 @@ Destroy:
 
   Once the cluster has been created Kafka should be running on all worker nodes in the cluster, and Kafka libraries should be installed on the master node(s). You can test your Kafka setup by creating a simple topic and publishing to it with Kafka's command-line tools, after SSHing into one of your master nodes:
 
-  `gcloud compute ssh gcloud compute ssh poccluster-m --zone europe-west2-b`
+  `gcloud compute ssh gcloud compute ssh tstdataprocclus-m --zone europe-west2-b`
 
    Create a test topic, just talking to the local master's zookeeper server.
 

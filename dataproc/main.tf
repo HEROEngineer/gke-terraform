@@ -1,23 +1,23 @@
-resource "google_storage_bucket" "pocstagingbuck" {
-  name          = "dataproc-poc-staging-bucket"
+resource "google_storage_bucket" "tstdataprocbuck" {
+  name          = var.bucket_name_dp
   location      = "EU"
   force_destroy = "true"
 }
 
-resource "google_dataproc_cluster" "poccluster" {
-  name   = "poccluster"
-  region = "${var.cluster_location}"
+resource "google_dataproc_cluster" "tstdataprocclus" {
+  name   = var.cluster_dp_name
+  region = var.cluster_location
 
-  labels {
+  labels = {
     foo = "bar"
   }
 
   cluster_config {
-    staging_bucket = "${google_storage_bucket.pocstagingbuck.name}"
+    staging_bucket = google_storage_bucket.tstdataprocbuck.name
 
     master_config {
-      num_instances = "${var.master_num_instances}"
-      machine_type  = "${var.master_machine_type}"
+      num_instances = var.master_num_instances
+      machine_type  = var.master_machine_type
 
       disk_config {
         boot_disk_type    = "pd-ssd"
@@ -26,8 +26,8 @@ resource "google_dataproc_cluster" "poccluster" {
     }
 
     worker_config {
-      num_instances = "${var.worker_num_instances}"
-      machine_type  = "${var.worker_machine_type}"
+      num_instances = var.worker_num_instances
+      machine_type  = var.worker_machine_type
 
       disk_config {
         boot_disk_size_gb = 30
@@ -41,15 +41,16 @@ resource "google_dataproc_cluster" "poccluster" {
 
     # Override or set some custom properties
     software_config {
-      image_version = "1.3.14-deb9"
+      image_version = "1.4.21-debian9"
 
       override_properties = {
-        "dataproc:dataproc.allow.zero.workers" = "true"
+        "dataproc:dataproc.allow.zero.workers"        = "true"
+        "dataproc:dataproc.conscrypt.provider.enable" = "false"
       }
     }
 
     gce_cluster_config {
-      network = "${google_compute_network.dataproc_network.name}"
+      network = google_compute_network.dataproc_network.name
       tags    = ["foo", "bar"]
     }
 
@@ -63,7 +64,7 @@ resource "google_dataproc_cluster" "poccluster" {
       script      = "gs://dataproc-initialization-actions/ganglia/ganglia.sh"
       timeout_sec = 500
     }
-/**
+    /**
     initialization_action {
       script      = "gs://dataproc-initialization-actions/zookeeper/zookeeper.sh"
       timeout_sec = 5000
@@ -78,13 +79,13 @@ resource "google_dataproc_cluster" "poccluster" {
       script      = "gs://dataproc-initialization-actions/livy/livy.sh"
       timeout_sec = 500
     }
-        initialization_action {
+    initialization_action {
       script      = "gs://dataproc-initialization-actions/kafka/kafka.sh"
       timeout_sec = 500
     }
   }
 
-  depends_on = ["google_storage_bucket.pocstagingbuck"]
+  depends_on = [google_storage_bucket.tstdataprocbuck]
 
   timeouts {
     create = "30m"
@@ -94,11 +95,11 @@ resource "google_dataproc_cluster" "poccluster" {
 
 # Submit an example spark job to a dataproc cluster
 resource "google_dataproc_job" "spark" {
-  region       = "${google_dataproc_cluster.poccluster.region}"
+  region       = google_dataproc_cluster.tstdataprocclus.region
   force_delete = true
 
   placement {
-    cluster_name = "${google_dataproc_cluster.poccluster.name}"
+    cluster_name = google_dataproc_cluster.tstdataprocclus.name
   }
 
   spark_config {
@@ -111,7 +112,7 @@ resource "google_dataproc_job" "spark" {
     }
 
     logging_config {
-      driver_log_levels {
+      driver_log_levels = {
         "root" = "INFO"
       }
     }
@@ -120,11 +121,11 @@ resource "google_dataproc_job" "spark" {
 
 # Submit a hadoop job to the cluster
 resource "google_dataproc_job" "hadoop" {
-  region       = "${google_dataproc_cluster.poccluster.region}"
+  region       = google_dataproc_cluster.tstdataprocclus.region
   force_delete = true
 
   placement {
-    cluster_name = "${google_dataproc_cluster.poccluster.name}"
+    cluster_name = google_dataproc_cluster.tstdataprocclus.name
   }
 
   hadoop_config {
@@ -133,17 +134,17 @@ resource "google_dataproc_job" "hadoop" {
     args = [
       "wordcount",
       "file:///usr/lib/spark/NOTICE",
-      "gs://${google_dataproc_cluster.poccluster.cluster_config.0.bucket}/hadoopjob_output",
+      "gs://${google_dataproc_cluster.tstdataprocclus.cluster_config.0.bucket}/hadoopjob_output",
     ]
   }
 }
 
 resource "google_dataproc_job" "sparksql" {
-  region       = "${google_dataproc_cluster.poccluster.region}"
+  region       = google_dataproc_cluster.tstdataprocclus.region
   force_delete = true
 
   placement {
-    cluster_name = "${google_dataproc_cluster.poccluster.name}"
+    cluster_name = google_dataproc_cluster.tstdataprocclus.name
   }
 
   sparksql_config {
@@ -157,11 +158,11 @@ resource "google_dataproc_job" "sparksql" {
 
 # Submit a pig job to the cluster
 resource "google_dataproc_job" "pig" {
-  region       = "${google_dataproc_cluster.poccluster.region}"
+  region       = google_dataproc_cluster.tstdataprocclus.region
   force_delete = true
 
   placement {
-    cluster_name = "${google_dataproc_cluster.poccluster.name}"
+    cluster_name = google_dataproc_cluster.tstdataprocclus.name
   }
 
   pig_config {
@@ -177,11 +178,11 @@ resource "google_dataproc_job" "pig" {
 
 # Submit an example pyspark job to a dataproc cluster
 resource "google_dataproc_job" "pyspark" {
-  region       = "${google_dataproc_cluster.poccluster.region}"
+  region       = google_dataproc_cluster.tstdataprocclus.region
   force_delete = true
 
   placement {
-    cluster_name = "${google_dataproc_cluster.poccluster.name}"
+    cluster_name = google_dataproc_cluster.tstdataprocclus.name
   }
 
   pyspark_config {
@@ -200,43 +201,43 @@ resource "google_bigquery_dataset" "default" {
   location                    = "EU"
   default_table_expiration_ms = 3600000
 
-  labels {
+  labels = {
     env = "default"
   }
 }
 
 resource "google_bigquery_table" "default" {
-  dataset_id = "${google_bigquery_dataset.default.dataset_id}"
+  dataset_id = google_bigquery_dataset.default.dataset_id
   table_id   = "bar"
 
   time_partitioning {
     type = "DAY"
   }
 
-  labels {
+  labels = {
     env = "default"
   }
 
-  schema = "${file("schema.json")}"
+  schema = file("schema.json")
 }
 
 # Check out current state of the jobs
 output "spark_status" {
-  value = "${google_dataproc_job.spark.status.0.state}"
+  value = google_dataproc_job.spark.status.0.state
 }
 
 output "pyspark_status" {
-  value = "${google_dataproc_job.pyspark.status.0.state}"
+  value = google_dataproc_job.pyspark.status.0.state
 }
 
 output "pig_status" {
-  value = "${google_dataproc_job.pig.status.0.state}"
+  value = google_dataproc_job.pig.status.0.state
 }
 
 output "hadoopjob_status" {
-  value = "${google_dataproc_job.hadoop.status.0.state}"
+  value = google_dataproc_job.hadoop.status.0.state
 }
 
 output "sparksql_status" {
-  value = "${google_dataproc_job.sparksql.status.0.state}"
+  value = google_dataproc_job.sparksql.status.0.state
 }

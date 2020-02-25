@@ -20,10 +20,19 @@ variable "worker_num_instances" {
 
 variable "master_machine_type" {
   description = "Specifies the machine type of master nodes to create"
-  default     = "n1-standard-2"
+  default     = "n1-standard-1"
 }
 
 variable "worker_machine_type" {
   description = "Specifies the machine type of worker nodes to create"
-  default     = "n1-standard-2"
+  default     = "n1-standard-1"
+}
+
+
+variable "bucket_name_dp" {
+  description = "Specifies the bucket name to be created"
+}
+
+variable "cluster_dp_name" {
+  description = "Specifies the dataproc cluster name"
 }
