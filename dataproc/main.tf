@@ -1,6 +1,6 @@
 resource "google_storage_bucket" "tstdataprocbuck" {
   name          = var.bucket_name_dp
-  location      = "EU"
+  location      = lookup(var.dataprocbuckloc, var.cluster_location)
   force_destroy = "true"
 }
 
@@ -16,8 +16,9 @@ resource "google_dataproc_cluster" "tstdataprocclus" {
     staging_bucket = google_storage_bucket.tstdataprocbuck.name
 
     master_config {
-      num_instances = var.master_num_instances
-      machine_type  = var.master_machine_type
+      num_instances    = var.master_num_instances
+      machine_type     = var.master_machine_type
+      min_cpu_platform = "Intel Skylake"
 
       disk_config {
         boot_disk_type    = "pd-ssd"
@@ -26,8 +27,9 @@ resource "google_dataproc_cluster" "tstdataprocclus" {
     }
 
     worker_config {
-      num_instances = var.worker_num_instances
-      machine_type  = var.worker_machine_type
+      num_instances    = var.worker_num_instances
+      machine_type     = var.worker_machine_type
+      min_cpu_platform = "Intel Skylake"
 
       disk_config {
         boot_disk_size_gb = 30
@@ -240,4 +242,10 @@ output "hadoopjob_status" {
 
 output "sparksql_status" {
   value = google_dataproc_job.sparksql.status.0.state
+}
+
+output "logs_directory_browser_url" {
+
+  value       = join("", google_storage_bucket.tstdataprocbuck.*.url)
+  description = "The base URL of the bucket, in the format gs://<bucket-name>"
 }

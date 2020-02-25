@@ -36,3 +36,29 @@ variable "bucket_name_dp" {
 variable "cluster_dp_name" {
   description = "Specifies the dataproc cluster name"
 }
+
+variable "dataprocbuckloc" {
+  type = map
+  default = {
+    "asia-east1"      = "ASIA"
+    "asia-east2"      = "ASIA"
+    "asia-northeast1" = "ASIA"
+    "asia-northeast2" = "ASIA"
+    "asia-northeast3" = "ASIA"
+    "asia-south1"     = "ASIA"
+    "asia-southeast1" = "ASIA"
+    "europe-north1"   = "EU"
+    "europe-west1"    = "EU"
+    "europe-west2"    = "EU"
+    "europe-west3"    = "EU"
+    "europe-west4"    = "EU"
+    "europe-west5"    = "EU"
+    "europe-west6"    = "EU"
+    "us-central1"     = "US"
+    "us-east1"        = "US"
+    "us-east4"        = "US"
+    "us-west1"        = "US"
+    "us-west2"        = "US"
+    "us-west3"        = "US"
+  }
+}
