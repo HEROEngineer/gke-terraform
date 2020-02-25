@@ -94,7 +94,7 @@ Pre-req:
 
 Plan:
 
-`terraform init && terraform plan -var cluster_location=europe-west2 -var project=<<your-google-cloud-project-name>> -var worker_num_instances=<<number of workers for the default auto ha with zookeper 3 masters>> -out "run.plan"`
+`terraform init && terraform plan -var bucket_name_dp=testbuckdp -var cluster_dp_name=tstdppocclus cluster_location=europe-west2 -var project=<<your-google-cloud-project-name>> -var worker_num_instances=<<number of workers for the default auto ha with zookeper 3 masters>> -out "run.plan"`
 
 Apply:
 
@@ -102,13 +102,13 @@ Apply:
 
 Destroy:
 
-`terraform destroy -var cluster_location=europe-west2 -var project=<<your-google-cloud-project-name>> -var worker_num_instances=<<number of workers for the default auto ha with zookeper 3 masters>>`
+`terraform destroy -var bucket_name_dp=testbuckdp -var cluster_dp_name=tstdppocclus -var cluster_location=europe-west2 -var project=<<your-google-cloud-project-name>> -var worker_num_instances=<<number of workers for the default auto ha with zookeper 3 masters>>`
 
  ### Testing Kafka
 
   Once the cluster has been created Kafka should be running on all worker nodes in the cluster, and Kafka libraries should be installed on the master node(s). You can test your Kafka setup by creating a simple topic and publishing to it with Kafka's command-line tools, after SSHing into one of your master nodes:
 
-  `gcloud compute ssh gcloud compute ssh tstdataprocclus-m --zone europe-west2-b`
+  `gcloud compute ssh <<Cluster Name>>-m-0`
 
    Create a test topic, just talking to the local master's zookeeper server.
 
