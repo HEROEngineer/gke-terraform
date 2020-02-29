@@ -66,12 +66,12 @@ resource "google_dataproc_cluster" "tstdataprocclus" {
       script      = "gs://dataproc-initialization-actions/ganglia/ganglia.sh"
       timeout_sec = 500
     }
-    /**
+
     initialization_action {
       script      = "gs://dataproc-initialization-actions/zookeeper/zookeeper.sh"
       timeout_sec = 5000
     }
-**/
+
     initialization_action {
       script      = "gs://dataproc-initialization-actions/docker/docker.sh"
       timeout_sec = 500
