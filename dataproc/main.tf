@@ -66,12 +66,6 @@ resource "google_dataproc_cluster" "tstdataprocclus" {
       script      = "gs://dataproc-initialization-actions/ganglia/ganglia.sh"
       timeout_sec = 500
     }
-
-    initialization_action {
-      script      = "gs://dataproc-initialization-actions/zookeeper/zookeeper.sh"
-      timeout_sec = 5000
-    }
-
     initialization_action {
       script      = "gs://dataproc-initialization-actions/docker/docker.sh"
       timeout_sec = 500
@@ -85,6 +79,9 @@ resource "google_dataproc_cluster" "tstdataprocclus" {
       script      = "gs://dataproc-initialization-actions/kafka/kafka.sh"
       timeout_sec = 500
     }
+    autoscaling_config {
+      policy_uri = google_dataproc_autoscaling_policy.asp.name
+    }
   }
 
   depends_on = [google_storage_bucket.tstdataprocbuck]
@@ -94,7 +91,23 @@ resource "google_dataproc_cluster" "tstdataprocclus" {
     delete = "30m"
   }
 }
+resource "google_dataproc_autoscaling_policy" "asp" {
+  policy_id = "dataproc-policy"
+  location  = var.cluster_location
 
+  worker_config {
+    max_instances = 3
+  }
+
+  basic_algorithm {
+    yarn_config {
+      graceful_decommission_timeout = "30s"
+
+      scale_up_factor   = 0.5
+      scale_down_factor = 0.5
+    }
+  }
+}
 # Submit an example spark job to a dataproc cluster
 resource "google_dataproc_job" "spark" {
   region       = google_dataproc_cluster.tstdataprocclus.region
@@ -196,11 +209,12 @@ resource "google_dataproc_job" "pyspark" {
   }
 }
 
+
 resource "google_bigquery_dataset" "default" {
-  dataset_id                  = "testdataset"
-  friendly_name               = "test"
+  dataset_id                  = var.bq_dataset
+  friendly_name               = var.bq_dataset_name
   description                 = "This is a test description"
-  location                    = "EU"
+  location                    = lookup(var.dataprocbuckloc, var.cluster_location)
   default_table_expiration_ms = 3600000
 
   labels = {
@@ -224,6 +238,22 @@ resource "google_bigquery_table" "default" {
 }
 
 # Check out current state of the jobs
+output "BigQuery_dataset_status" {
+  value = google_bigquery_table.default.dataset_id
+}
+output "google_bucket_status" {
+  value = google_storage_bucket.tstdataprocbuck.url
+}
+
+output "dataproc_cluster_status" {
+  value = google_dataproc_cluster.tstdataprocclus.id
+}
+output "dataproc_master_status" {
+  value = google_dataproc_cluster.tstdataprocclus.cluster_config.0.master_config.0.instance_names
+}
+output "dataproc_worker_status" {
+  value = google_dataproc_cluster.tstdataprocclus.cluster_config.0.worker_config.0.instance_names
+}
 output "spark_status" {
   value = google_dataproc_job.spark.status.0.state
 }

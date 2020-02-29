@@ -13,6 +13,7 @@ variable "master_num_instances" {
 
 variable "worker_num_instances" {
   description = "Specifies the number of worker nodes to create"
+
 }
 
 variable "master_machine_type" {
@@ -58,4 +59,11 @@ variable "dataprocbuckloc" {
     "us-west2"        = "US"
     "us-west3"        = "US"
   }
+}
+
+variable "bq_dataset" {
+  description = "The BigQuery Dataset ID name"
+}
+variable "bq_dataset_name" {
+  description = "The BigQuery Dataset Friendly name"
 }
