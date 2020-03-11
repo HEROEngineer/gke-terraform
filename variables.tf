@@ -29,7 +29,7 @@ variable "project" {
 
 variable "gcp_machine_type" {
   description = "The Machine type"
-  default     = "n1-standard-2"
+  default     = "n1-highmem-2"
 }
 
 variable "helm_install_jenkins" {
