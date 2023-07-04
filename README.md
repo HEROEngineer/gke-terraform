@@ -45,7 +45,7 @@ Table of Contents (GKE and tools with Terraform)
 
  ### Automatic Provisioning
 
-https://github.com/cloudgear-io/gke-terraform
+https://github.com/HEROEngineer/gke-terraform
 
 Pre-req: 
 1. gcloud should be installed. Silent install is - 
@@ -68,15 +68,15 @@ Destroy:
 
 ### Reporting bugs
 
-Please report bugs  by opening an issue in the [GitHub Issue Tracker](https://github.com/cloudgear-io/gke-terraform/issues).
-Bugs have auto template defined. Please view it [here](https://github.com/cloudgear-io/gke-terraform/blob/master/.github/ISSUE_TEMPLATE/bug_report.md)
+Please report bugs  by opening an issue in the [GitHub Issue Tracker](https://github.com/HEROEngineer/gke-terraform/issues).
+Bugs have auto template defined. Please view it [here](https://github.com/HEROEngineer/gke-terraform/blob/master/.github/ISSUE_TEMPLATE/bug_report.md)
 
 ### Patches and pull requests
 
 Patches can be submitted as GitHub pull requests. If using GitHub please make sure your branch applies to the current master as a 'fast forward' merge (i.e. without creating a merge commit). Use the `git rebase` command to update your branch to the current master if necessary.
 
 ### License
-  * Please see the [LICENSE file](https://github.com/cloudgear-io/gke-terraform/blob/master/LICENSE) for licensing information.
+  * Please see the [LICENSE file](https://github.com/HEROEngineer/gke-terraform/blob/master/LICENSE) for licensing information.
 
 ### Code of Conduct
-  * Please see the [Code of Conduct](https://github.com/cloudgear-io/gke-terraform/blob/master/CODE_OF_CONDUCT.md)
+  * Please see the [Code of Conduct](https://github.com/HEROEngineer/gke-terraform/blob/master/CODE_OF_CONDUCT.md)
